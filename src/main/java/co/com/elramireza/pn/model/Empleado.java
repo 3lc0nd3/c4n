@@ -43,17 +43,29 @@ public class Empleado {
         this.fechaIngreso = fechaIngreso;
     }
 
-    private Participante participanteByIdParticipante;
+	private PnPremio premioByIdPremio;
 
-    @ManyToOne
-    @JoinColumn(name = "id_participante", referencedColumnName = "id", nullable = false)
-    public Participante getParticipanteByIdParticipante() {
-        return participanteByIdParticipante;
-    }
+	@ManyToOne
+	@JoinColumn(name = "id_premio", referencedColumnName = "id", nullable = false)
+	public PnPremio getPremioByIdPremio() {
+		return premioByIdPremio;
+	}
 
-    public void setParticipanteByIdParticipante(Participante participanteByIdParticipante) {
-        this.participanteByIdParticipante = participanteByIdParticipante;
-    }
+	public void setPremioByIdPremio(PnPremio premioByIdPremio) {
+		this.premioByIdPremio = premioByIdPremio;
+	}
+
+	private Empresa empresaByIdEmpresa;
+
+	@ManyToOne
+	@JoinColumn(name = "id_empresa", referencedColumnName = "id", nullable = false)
+	public Empresa getEmpresaByIdEmpresa() {
+		return empresaByIdEmpresa;
+	}
+
+	public void setEmpresaByIdEmpresa(Empresa empresaByIdEmpresa) {
+		this.empresaByIdEmpresa = empresaByIdEmpresa;
+	}
 
     private Perfil perfilByIdPerfil;
 
@@ -65,29 +77,6 @@ public class Empleado {
 
     public void setPerfilByIdPerfil(Perfil perfilByIdPerfil) {
         this.perfilByIdPerfil = perfilByIdPerfil;
-    }
-
-    private int idCargoEmpleado;
-
-    @Transient
-    public int getIdCargoEmpleado() {
-        return idCargoEmpleado;
-    }
-
-    public void setIdCargoEmpleado(int idCargoEmpleado) {
-        this.idCargoEmpleado = idCargoEmpleado;
-    }
-
-    private CargoEmpleado cargoEmpleadoByIdCargo;
-
-    @ManyToOne
-    @JoinColumn(name = "id_cargo", referencedColumnName = "id", nullable = false)
-    public CargoEmpleado getCargoEmpleadoByIdCargo() {
-        return cargoEmpleadoByIdCargo;
-    }
-
-    public void setCargoEmpleadoByIdCargo(CargoEmpleado cargoEmpleadoByIdCargo) {
-        this.cargoEmpleadoByIdCargo = cargoEmpleadoByIdCargo;
     }
 
     private Persona personaByIdPersona;

@@ -1,14 +1,11 @@
 package co.com.elramireza.pn.dao;
 
 import co.com.elramireza.pn.model.*;
-import co.com.elramireza.pn.util.MyKey;
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-import org.springframework.orm.hibernate3.HibernateCallback;
 import org.hibernate.exception.ConstraintViolationException;
-import org.hibernate.*;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -17,18 +14,15 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 
 import static java.lang.String.format;
 
-import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -50,14 +44,11 @@ public class PnDAO extends HibernateDaoSupport{
 	public SimpleDateFormat dfDateTime = new SimpleDateFormat("dd/MM/yyyy KK:mm aaa");
 
 	public String test(String s){
+		Persona persona = getPersonaFromDoc(s);
 		logger.info("s = " + s);
 		return "Hola " + s;
 	}
 
-
-	public List<TipoCargoEmpleado> getTipoCargoEmpleados(){
-		return getHibernateTemplate().find("from TipoCargoEmpleado order by tipoCargo ");
-	}
 
     /**
      * segun el nombre del servicio
@@ -150,12 +141,12 @@ public class PnDAO extends HibernateDaoSupport{
 	}
 
 	public List<Empleado> getEmpleados(){
-		return getHibernateTemplate().find("from Empleado where participanteByIdParticipante.empresaByIdEmpresa.idEmpresa <> 1 order by participanteByIdParticipante.empresaByIdEmpresa.nombreEmpresa , personaByIdPersona.nombrePersona , personaByIdPersona.apellido ");
+		return getHibernateTemplate().find("from Empleado where empresaByIdEmpresa.idEmpresa <> 1 order by empresaByIdEmpresa.nombreEmpresa , personaByIdPersona.nombrePersona , personaByIdPersona.apellido ");
 	}
 
 
 	public List<Empleado> getEmpleadosInterno(){
-		return getHibernateTemplate().find("from Empleado where participanteByIdParticipante.empresaByIdEmpresa.idEmpresa = 1 order by participanteByIdParticipante.empresaByIdEmpresa.nombreEmpresa , personaByIdPersona.nombrePersona , personaByIdPersona.apellido ");
+		return getHibernateTemplate().find("from Empleado where empresaByIdEmpresa.idEmpresa = 1 order by empresaByIdEmpresa.nombreEmpresa , personaByIdPersona.nombrePersona , personaByIdPersona.apellido ");
 	}
 
 	public Empleado getEmpleado(int idEmpleado){
@@ -182,16 +173,15 @@ public class PnDAO extends HibernateDaoSupport{
 	}
 
 	public Empleado vinculaEmpleado(int idPersona,
-									int idParticipante,
+									int idEmpresa,
 									int idCargo,
 									int idPerfil){
-		logger.info("idParticipante = " + idParticipante);
+		logger.info("idEmpresa = " + idEmpresa);
 		try {
 			Empleado empleado = new Empleado();
 			empleado.setPerfilByIdPerfil(getPerfil(idPerfil));
 			empleado.setPersonaByIdPersona(getPersona(idPersona));
-			empleado.setCargoEmpleadoByIdCargo(getCargoEmpleado(idCargo));
-			empleado.setParticipanteByIdParticipante(getParticipante(idParticipante));
+			empleado.setEmpresaByIdEmpresa(getEmpresa(idEmpresa));
 			empleado.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
 
 
@@ -224,8 +214,8 @@ public class PnDAO extends HibernateDaoSupport{
 	public void notificaEmpleadoVinculo(Empleado empleado){
 		Persona personaByIdPersona = empleado.getPersonaByIdPersona();
 		logger.info("personaByIdPersona = " + personaByIdPersona);
-		String asunto = "Vinculado a PNEIG - " + empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()+
-                ", " + empleado.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa();
+		String asunto = "Vinculado a c4n - " + empleado.getPremioByIdPremio().getNombrePremio()+
+                ", " + empleado.getEmpresaByIdEmpresa().getNombreEmpresa();
 		logger.info("asunto = " + asunto);
 		String mensaje =
 				"Cordial saludo" +
@@ -233,11 +223,9 @@ public class PnDAO extends HibernateDaoSupport{
 						"<br>" +
 						"Le informamos que usted ha sido vinculado al siguiente proceso: " +
 				        "<br>" +
-						"Premio: " + empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()+
+						"Prueba: " + empleado.getPremioByIdPremio().getNombrePremio()+
 						"<br>" +
-						"Empresa: " + empleado.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa() +
-						"<br>" +
-						"Cargo: " + empleado.getCargoEmpleadoByIdCargo().getCargo() +
+						"Empresa: " + empleado.getEmpresaByIdEmpresa().getNombreEmpresa() +
 						"<br>" +
 						"Perfil en el Sistema: " + empleado.getPerfilByIdPerfil().getPerfil() +
 						"<br>" +
@@ -259,25 +247,7 @@ public class PnDAO extends HibernateDaoSupport{
 		enviaEmail(emails, asunto, mensaje, null, SUSCRIBE);
 	}
 
-	public int desvincularParticipante(int idParticipante){
-		try {
-			Participante participante = getParticipante(idParticipante);
-			getHibernateTemplate().delete(participante);
-			return 1;
-		} catch (DataAccessException e) {
-			logger.debug(e.getMessage());
-			return 0;
-		}
-	}
 
-	public List<Participante> getParticipantes(){
-		return getHibernateTemplate().find("from Participante where empresaByIdEmpresa.tipoEmpresaByIdTipoEmpresa.id = 2 order by pnPremioByIdConvocatoria.nombrePremio, empresaByIdEmpresa.nombreEmpresa ");
-	}
-
-	public List<Participante> getParticipantesFromPremio(int idPremio){
-		return getHibernateTemplate().find("from Participante where pnPremioByIdConvocatoria.idPnPremio = ? ",
-				idPremio);
-	}
 
 	public List<EmpresaCategoria> getEmpresaCategorias(){
 		return getHibernateTemplate().find("from EmpresaCategoria ");
@@ -285,14 +255,6 @@ public class PnDAO extends HibernateDaoSupport{
 
 	public List<EmpresaCategoriaTamano> getEmpresaCategoriaTamanos(){
 		return getHibernateTemplate().find("from EmpresaCategoriaTamano ");
-	}
-
-	public List<CargoEmpleado> getCargoEmpleadosParticipante(){
-		return getHibernateTemplate().find("from CargoEmpleado where tipoCargoEmpleadoByIdTipoCargo.id = 2");
-	}
-
-	public List<CargoEmpleado> getCargoEmpleadosInterno(){
-		return getHibernateTemplate().find("from CargoEmpleado where tipoCargoEmpleadoByIdTipoCargo.id = 1");
 	}
 
 	public int saveEmpresa(Empresa empresa){
@@ -370,10 +332,6 @@ public class PnDAO extends HibernateDaoSupport{
 		return (LocCiudad) getHibernateTemplate().get(LocCiudad.class, id);
 	}
 
-	public CargoEmpleado getCargoEmpleado(int id){
-		return (CargoEmpleado) getHibernateTemplate().get(CargoEmpleado.class, id);
-	}
-
 	public TipoEmpresa getTipoEmpresa(int id){
 		return (TipoEmpresa) getHibernateTemplate().get(TipoEmpresa.class, id);
 	}
@@ -442,6 +400,10 @@ public class PnDAO extends HibernateDaoSupport{
     public int registroAspirante(Persona aspirante){
         logger.info("aspirante.getNombre = " + aspirante.getNombrePersona());
         logger.info("aspirante.getApellido() = " + aspirante.getApellido());
+		logger.info("aspirante.getSexo() = " + aspirante.getSexo());
+		logger.info("aspirante.getTmpFechaNacimiento() = " + aspirante.getTmpFechaNacimiento());
+		logger.info("aspirante.getIdCiudad() = " + aspirante.getIdCiudad());
+
         try {
             Persona aspiranteOld = getPersonaFromDoc(aspirante.getDocumentoIdentidad());
             if(aspiranteOld != null){
@@ -453,7 +415,7 @@ public class PnDAO extends HibernateDaoSupport{
                 int idAspirante = (Integer) getHibernateTemplate().save(aspirante);
                 aspirante.setIdPersona(idAspirante);
             }
-            notificaEvaluadorAspiranteRegitro(aspirante);
+//            notificaEvaluadorAspiranteRegitro(aspirante);
             return 1;
         } catch (DataAccessException e) {
 
@@ -465,188 +427,6 @@ public class PnDAO extends HibernateDaoSupport{
     public PnEtapaParticipante getPnEtapaParticipante(int id){
         return (PnEtapaParticipante) getHibernateTemplate().get(PnEtapaParticipante.class, id);
     }
-
-	public int saveInscrito(Empresa empresa,
-							Persona personaDirectivo,
-							Persona personaEncargado){
-
-		WebContext wctx = WebContextFactory.get();
-//        HttpSession session = wctx.getSession(true);
-		ServletContext context = wctx.getServletContext();
-
-		logger.debug("empresa.getNit() = " + empresa.getNit());
-		logger.debug("empresa.getNombreEmpresa() = " + empresa.getNombreEmpresa());
-		logger.debug("empresa.getPublicaEmpresa() = " + empresa.getPublicaEmpresa());
-		logger.debug("empresa.getIdEmpresaCategoriaTamano() = " + empresa.getIdEmpresaCategoriaTamano());
-		empresa.setLocCiudadByIdCiudad(getCiudad(empresa.getLocCiudadEmpresa()));
-		logger.debug("empresa.getLocCiudadByIdCiudad().getNombreCiudad() = " + empresa.getLocCiudadByIdCiudad().getNombreCiudad());
-		logger.debug("empresa.getMarcas() = " + empresa.getMarcas());
-
-		try {
-			EmpresaCategoria categoriaEmpresa = getEmpresaCategoria(empresa.getIdEmpresaCategoria());
-			logger.debug("categoriaEmpresa.getCategoria() = " + categoriaEmpresa.getCategoria());
-			EmpresaCategoriaTamano empresaCategoriaTamano = getEmpresaCategoriaTamano(empresa.getIdEmpresaCategoriaTamano());
-			logger.debug("empresaCategoriaTamano.getTamano() = " + empresaCategoriaTamano.getTamano());
-
-			logger.debug("empresa.getFileCertificadoConstitucion() = " + empresa.getFileCertificadoConstitucion());
-			logger.debug("empresa.getFileConsignacion() = " + empresa.getFileConsignacion());
-			logger.debug("empresa.getFileEstadoFinancieroFile() = " + empresa.getFileEstadoFinancieroFile());
-
-			/*  DIRECTIVO  */
-
-			Persona directivoOld = getPersonaFromDoc(personaDirectivo.getDocumentoIdentidad());
-			if(directivoOld != null){  // SI EXISTE
-				personaDirectivo = directivoOld;
-			} else { // NO EXISTE
-				personaDirectivo.setEstado(false);
-				personaDirectivo.setEmailPersonal(personaDirectivo.getEmailCorporativo());
-				personaDirectivo.setLocCiudadByIdCiudad(empresa.getLocCiudadByIdCiudad());
-				personaDirectivo.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
-				int idDirectivo = (Integer) getHibernateTemplate().save(personaDirectivo);
-				personaDirectivo.setIdPersona(idDirectivo);
-			}
-
-			logger.info("personaDirectivo.getIdPersona() = " 			+ personaDirectivo.getIdPersona());
-			logger.debug("personaDirectivo.getDocumentoIdentidad() = " 	+ personaDirectivo.getDocumentoIdentidad());
-			logger.debug("personaDirectivo.getNombrePersona() = " 		+ personaDirectivo.getNombrePersona());
-			logger.debug("personaDirectivo.getApellido() = " 			+ personaDirectivo.getApellido());
-
-			/*  EMPLEADO  */
-
-			Persona empleadoOld = getPersonaFromDoc(personaEncargado.getDocumentoIdentidad());
-			if(empleadoOld != null){       // SI EXISTE EN LA DB
-				// PARA QUE NO SE PIERDA EL CARGO LO TRAIGO DEL FORM
-				empleadoOld.setIdCargoEmpleado(personaEncargado.getIdCargoEmpleado());
-				personaEncargado = empleadoOld;
-			} else {
-				personaEncargado.setEstado(false);
-				personaEncargado.setLocCiudadByIdCiudad(empresa.getLocCiudadByIdCiudad());
-				personaEncargado.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
-				int idEmpleado = (Integer) getHibernateTemplate().save(personaEncargado);
-				personaEncargado.setIdPersona(idEmpleado);
-			}
-
-			logger.debug("personaEncargado.getIdPersona() = " + personaEncargado.getIdPersona());
-			logger.debug("personaEncargado.getDocumentoIdentidad() = " + personaEncargado.getDocumentoIdentidad());
-			logger.debug("personaEncargado.getNombrePersona() = "	 	+ personaEncargado.getNombrePersona());
-			logger.debug("personaEncargado.getIdCargoEmpleado() = " 	+ personaEncargado.getIdCargoEmpleado());
-
-			/*  EMPRESA  */
-
-			Empresa empresaOld = getEmpresaFromNit(empresa.getNit());
-			if(empresaOld != null){
-				empresa = empresaOld;
-			} else {
-				empresa.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
-				empresa.setTipoEmpresaByIdTipoEmpresa(getTipoEmpresa(2));
-				empresa.setEstado(false); // sin aprovar
-				empresa.setEmpresaCategoriaByIdCategoriaEmpresa(categoriaEmpresa);
-				empresa.setEmpresaCategoriaTamanoByIdCategoriaTamanoEmpresa(empresaCategoriaTamano);
-
-				String path = context.getRealPath("/pdfs");
-				System.out.println("path = " + path);
-
-				String fileInformePostulacion  		= path+"/ip-"+empresa.getNit()+".pdf";
-				String fileCertificadoConstitucion  = path+"/cc-"+empresa.getNit()+".pdf";
-				String fileEstadoFinanciero         = path+"/ef-"+empresa.getNit()+".pdf";
-				String fileConsignacion             = path+"/co-"+empresa.getNit()+".pdf";
-				try {
-					FileOutputStream informePostulacionStream = new FileOutputStream(fileInformePostulacion);
-					logger.debug("empresa.getFileInformePostulacionFile() = " + empresa.getFileInformePostulacionFile());
-					informePostulacionStream.write(empresa.getFileInformePostulacionFile());
-					informePostulacionStream.close();
-
-					FileOutputStream certificadoConstitucionStream = new FileOutputStream(fileCertificadoConstitucion);
-					certificadoConstitucionStream.write(empresa.getFileCertificadoConstitucionFile());
-					certificadoConstitucionStream.close();
-
-					FileOutputStream estadoFinancieroStream = new FileOutputStream(fileEstadoFinanciero);
-					estadoFinancieroStream.write(empresa.getFileEstadoFinancieroFile());
-					estadoFinancieroStream.close();
-
-					FileOutputStream consignacionStream = new FileOutputStream(fileConsignacion);
-					consignacionStream.write(empresa.getFileConsignacionFile());
-					consignacionStream.close();
-
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-					logger.debug(e.getMessage());
-					return 0;
-				} catch (IOException e) {
-					e.printStackTrace();
-					logger.debug(e.getMessage());
-					return 0;
-				}
-
-				empresa.setFileInformePostulacion(fileInformePostulacion);
-				empresa.setFileCertificadoConstitucion(fileCertificadoConstitucion);
-				empresa.setFileEstadoFinanciero(fileEstadoFinanciero);
-				empresa.setFileConsignacion(fileConsignacion);
-
-				logger.info("est 1");
-
-				int idEmpresa = (Integer) saveEmpresa(empresa);
-				empresa.setIdEmpresa(idEmpresa);
-			}
-
-			// TODO PONER LOS PDF EN EL PARTICIPANTE
-
-			/*  PARTICIPANTE  */
-			Participante participante = new Participante();
-			participante.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
-			participante.setEstado(false); // HAY QUE ACTIVARLO
-			participante.setObservaciones("Registro Web");
-			participante.setEmpresaByIdEmpresa(empresa);
-			participante.setPnPremioByIdConvocatoria(getPnPremioActivo());
-			participante.setPnEtapaParticipanteByIdEtapaParticipante(
-					getPnEtapaParticipante(1));
-
-			int idParticipante = (Integer) getHibernateTemplate().save(participante);
-			logger.debug("idParticipante = " + idParticipante);
-			participante.setIdParticipante(idParticipante);
-
-
-			// VINCULAR PERSONAL
-
-			/*  ENCARGADO  */
-			Empleado empleadoEncargado = new Empleado();
-			empleadoEncargado.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
-			empleadoEncargado.setParticipanteByIdParticipante(participante);
-			logger.debug("personaEncargado.getIdCargoEmpleado() = " + personaEncargado.getIdCargoEmpleado());
-			CargoEmpleado cargoEncargado = getCargoEmpleado(personaEncargado.getIdCargoEmpleado());
-			logger.debug("cargoEncargado.getCargo() = " + cargoEncargado.getCargo());
-			empleadoEncargado.setCargoEmpleadoByIdCargo(cargoEncargado);
-			empleadoEncargado.setPerfilByIdPerfil(getPerfil(3)); // Encargado de Proceso
-			empleadoEncargado.setPersonaByIdPersona(personaEncargado);
-
-			Integer idEncargado = (Integer) getHibernateTemplate().save(empleadoEncargado);
-			if(idEncargado != null){
-				notificaEmpleadoVinculo(empleadoEncargado);
-			}
-			empleadoEncargado.setIdEmpleado(idEncargado);
-
-			/*  DIRECTIVO  */
-			Empleado empleadoDirectivo = new Empleado();
-			empleadoDirectivo.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
-			empleadoDirectivo.setParticipanteByIdParticipante(participante);
-			empleadoDirectivo.setCargoEmpleadoByIdCargo(getCargoEmpleado(4)); //TODO PERGUNTAR EN EL FORM REGISTRO POR ESTE CARGO
-			empleadoDirectivo.setPerfilByIdPerfil(getPerfil(5)); // Encargado de Proceso
-			empleadoDirectivo.setPersonaByIdPersona(personaDirectivo);
-
-			Integer idDirectivo = (Integer) getHibernateTemplate().save(empleadoDirectivo);
-			if(idDirectivo != null){
-				notificaEmpleadoVinculo(empleadoDirectivo);
-			}
-			empleadoDirectivo.setIdEmpleado(idDirectivo);
-
-
-			return 1;
-		} catch (DataAccessException e) {
-			logger.info("e.getMessage() = " + e.getMessage());
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-			return 0;
-		}
-	} /*  FIN INSCRIPCION  */
 
 	public Perfil getPerfil(int id){
 		return (Perfil) getHibernateTemplate().get(Perfil.class, id);
@@ -677,42 +457,7 @@ public class PnDAO extends HibernateDaoSupport{
 		return premio;
 	}
 
-	public Participante getParticipante(int idParticipante){
-		return (Participante) getHibernateTemplate().get(Participante.class, idParticipante);
-	}
 
-	public Participante vinculeParticipantePremio(int idPremio,
-												  int idEmpresa){
-		try {
-			Participante participante = new Participante();
-			participante.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
-			participante.setEstado(false); // HAY QUE ACTIVARLO
-			participante.setObservaciones("Registro Interno");
-			participante.setEmpresaByIdEmpresa(getEmpresa(idEmpresa));
-			participante.setPnPremioByIdConvocatoria(getPnPremio(idPremio));
-            participante.setPnEtapaParticipanteByIdEtapaParticipante(
-                getPnEtapaParticipante(1));
-			int idParticipante = (Integer) getHibernateTemplate().save(participante);
-			participante.setIdParticipante(idParticipante);
-
-			return participante;
-		} catch (DataAccessException e) {
-			logger.debug(e.getMessage());
-			return null;
-		}
-	}
-
-	public Boolean activeDesactiveParticipante(int idParticipante){
-		try {
-			Participante participante = getParticipante(idParticipante);
-			participante.setEstado(!participante.getEstado());
-			getHibernateTemplate().update(participante);
-			return participante.getEstado();
-		} catch (DataAccessException e) {
-			logger.debug(e.getMessage());
-			return null;
-		}
-	}
 
 	public Boolean activeDesactiveEmpresa(final int idEmpresa){
 		try {
@@ -805,7 +550,7 @@ public class PnDAO extends HibernateDaoSupport{
 
 	public List<Empleado> getEmpleosFromPersona(int idPersona){
 		List<Empleado> empleados = getHibernateTemplate().find(
-				"from Empleado where personaByIdPersona.idPersona = ? order by participanteByIdParticipante.pnPremioByIdConvocatoria.fechaDesde desc ", 
+				"from Empleado where personaByIdPersona.idPersona = ? order by perfilByIdPerfil.perfil, premioByIdPremio.nombrePremio desc ",
                 idPersona
 		);
 		logger.info("empleados nro = " + empleados.size());

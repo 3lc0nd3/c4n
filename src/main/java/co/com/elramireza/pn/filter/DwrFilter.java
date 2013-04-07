@@ -1,5 +1,6 @@
 package co.com.elramireza.pn.filter;
 
+import co.com.elramireza.pn.model.Empleado;
 import org.directwebremoting.AjaxFilter;
 import org.directwebremoting.AjaxFilterChain;
 import org.directwebremoting.WebContext;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletContext;
 import java.lang.reflect.Method;
 
-import co.com.elramireza.pn.model.Participante;
 import co.com.elramireza.pn.model.Servicio;
 import co.com.elramireza.pn.dao.PnDAO;
 
@@ -72,7 +72,7 @@ public class DwrFilter implements AjaxFilter {
         }
 */
         HttpServletRequest req = webContext.getHttpServletRequest();
-        Participante participante = (Participante) req.getSession().getAttribute("participante");
+		Empleado empleo = (Empleado) req.getSession().getAttribute("empleo");
 //        logger.info("participante = " + participante);
 //        logger.info("method.getName() = " + method.getName());
 
@@ -90,7 +90,7 @@ public class DwrFilter implements AjaxFilter {
 			publicoAjax = true;
 		}
 
-		if (participante == null && !publicoAjax) {
+		if (empleo == null && !publicoAjax) {
             logger.debug("Usuario Nulo - no hay usuario en session");
             throw new LoginRequiredException("Por favor ingrese al sistema.") ;
         }

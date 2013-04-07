@@ -1,6 +1,5 @@
 <%@ page import="co.com.elramireza.pn.model.Empresa" %>
 <%@ page import="co.com.elramireza.pn.model.Empleado" %>
-<%@ page import="co.com.elramireza.pn.model.Participante" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="co.com.elramireza.pn.model.Texto" %>

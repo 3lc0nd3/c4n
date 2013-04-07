@@ -26,17 +26,15 @@
                                 </select>
                             </div>
                         </div>
-                        <!-- Participante -->
+                        <!-- EMPRESA -->
                         <div class="control-group">
-                            <label class="control-label" for="idParticipante">Participantes</label>
+                            <label class="control-label" for="idEmpresa">Participantes</label>
                             <div class="controls">
-                                <select id="idParticipante" name="idParticipante" class="span6">
+                                <select id="idEmpresa" name="idEmpresa" class="span6">
                                     <%
-                                        for (Participante participante: pnManager.getParticipantes()){
-                                            Empresa empresa = participante.getEmpresaByIdEmpresa();
+                                        for (Empresa empresa: pnManager.getEmpresaActivas()){
                                     %>
-                                    <option value="<%=participante.getIdParticipante()%>">
-                                        <%=participante.getPnPremioByIdConvocatoria().getNombrePremio()%> - 
+                                    <option value="<%=empresa.getIdEmpresa()%>">
                                         <%=empresa.getNombreEmpresa()%>
                                     </option>
                                     <%
@@ -45,22 +43,7 @@
                                 </select>
                             </div>
                         </div>
-                        <!-- Cargos -->
-                        <div class="control-group">
-                            <label class="control-label" for="idCargo">Cargo</label>
-                            <div class="controls">
-                                <select id="idCargo" name="idCargo">
-                                    <%
-                                        for (CargoEmpleado cargo: pnManager.getCargoEmpleadosParticipante()){
-                                    %>
-                                    <option value="<%=cargo.getId()%>"><%=cargo.getCargo()%></option>
-                                    <%
-                                        }
-                                    %>
-                                </select>
-                            </div>
-                        </div>
-                        <!-- Cargos -->
+                        <!-- Perfil -->
                         <div class="control-group">
                             <label class="control-label" for="idPerfil">Perfil en Sistema</label>
                             <div class="controls">
@@ -118,13 +101,11 @@
                         imageActive = "img/negative.png";
                         messaActive = "Activar?";
                     }*/
-                Participante participante = empleado.getParticipanteByIdParticipante();
                 Persona persona = empleado.getPersonaByIdPersona();
         %>
         <tr>
             <td> <%=participante.getPnPremioByIdConvocatoria().getNombrePremio()%></td>
             <td> <%=participante.getEmpresaByIdEmpresa().getNombreEmpresa()%></td>
-            <td> <%=empleado.getCargoEmpleadoByIdCargo().getCargo()%></td>
             <td> <%=empleado.getPerfilByIdPerfil().getPerfil()%></td>
             <td>
                 <%=persona.getNombreCompleto()%>

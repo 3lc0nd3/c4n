@@ -26,24 +26,11 @@
                                 </select>
                             </div>
                         </div>
-                        <!-- Participante -->
-                        <input type="hidden" value="1" id="idParticipante" name="idParticipante" >
+                        <!-- EMPRESA -->
+                        <input type="hidden" value="1" id="idEmpresa" name="idEmpresa" >
                         <!-- Cargos -->
-                        <div class="control-group">
-                            <label class="control-label" for="idCargo">Cargo</label>
-                            <div class="controls">
-                                <select id="idCargo" name="idCargo">
-                                    <%
-                                        for (CargoEmpleado cargo: pnManager.getCargoEmpleadosParticipante()){
-                                    %>
-                                    <option value="<%=cargo.getId()%>"><%=cargo.getCargo()%></option>
-                                    <%
-                                        }
-                                    %>
-                                </select>
-                            </div>
-                        </div>
-                        <!-- Cargos -->
+
+                        <!-- Perfil -->
                         <div class="control-group">
                             <label class="control-label" for="idPerfil">Perfil en Sistema</label>
                             <div class="controls">
@@ -101,13 +88,11 @@
                         imageActive = "img/negative.png";
                         messaActive = "Activar?";
                     }*/
-                Participante participante = empleado.getParticipanteByIdParticipante();
                 Persona persona = empleado.getPersonaByIdPersona();
         %>
         <tr>
             <td> <%=participante.getPnPremioByIdConvocatoria().getNombrePremio()%></td>
             <td> <%=participante.getEmpresaByIdEmpresa().getNombreEmpresa()%></td>
-            <td> <%=empleado.getCargoEmpleadoByIdCargo().getCargo()%></td>
             <td> <%=empleado.getPerfilByIdPerfil().getPerfil()%></td>
             <td> <%=persona.getNombrePersona()%> <%=persona.getApellido()%> </td>
             <%--<td><img id="imgActive<%=participante.getIdParticipante()%>" width="28" onclick="activaDesactiva(<%=participante.getIdParticipante()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>--%>
@@ -145,7 +130,6 @@
             pnRemoto.vinculaEmpleado(
                     dwr.util.getValue("idPersona"),
                     dwr.util.getValue("idParticipante"),
-                    dwr.util.getValue("idCargo"),
                     dwr.util.getValue("idPerfil"),
                     function(data) {
                         if (data != null) {

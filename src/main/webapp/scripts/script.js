@@ -533,18 +533,6 @@ function cPss(){
     });
 }
 
-function restablecePassParticipantes(){
-//    alrt("dwr.util.getValue('idParticipante') = " + dwr.util.getValue('idParticipante'));
-    if(dwr.util.getValue('idParticipante') == 0){
-        alrt('cargue un Participante');
-    } else if(confirm('Desea restablecer Password')){
-        swRemoto.restablecePass(dwr.util.getValue('idParticipante'), function(data){
-            alrt('Password restablecido');
-        });
-
-    }
-}
-
 function guardaDatosPersonales(page){
     botonEnProceso('miPerfilDP');
     var participante ={

@@ -58,18 +58,16 @@
         <property name="annotatedClasses">
             <list>
 
-                <value>co.com.elramireza.pn.model.CargoEmpleado</value>
                 <value>co.com.elramireza.pn.model.Empresa</value>
+                <value>co.com.elramireza.pn.model.Empleado</value>
                 <value>co.com.elramireza.pn.model.LocCiudad</value>
                 <value>co.com.elramireza.pn.model.LocEstado</value>
                 <value>co.com.elramireza.pn.model.LocPais</value>
-                <value>co.com.elramireza.pn.model.Participante</value>
                 <value>co.com.elramireza.pn.model.Perfil</value>
                 <value>co.com.elramireza.pn.model.Persona</value>
                 <value>co.com.elramireza.pn.model.PnPremio</value>
                 <value>co.com.elramireza.pn.model.Servicio</value>
                 <value>co.com.elramireza.pn.model.ServicioRol</value>
-                <value>co.com.elramireza.pn.model.TipoCargoEmpleado</value>
                 <value>co.com.elramireza.pn.model.TipoEmpresa</value>
                 <value>co.com.elramireza.pn.model.Texto</value>
                 <value>co.com.elramireza.pn.model.EmpresaCategoria</value>
@@ -227,20 +225,14 @@
             <dwr:convert class="co.com.elramireza.sw.model.Certamen" type="bean">
                 <dwr:exclude method="participantesByCertamenJoin"/>
             </dwr:convert>
-            <dwr:convert class="co.com.elramireza.sw.model.Participante" type="bean">
-                <dwr:exclude method="password"/>
-                <dwr:exclude method="certamenesByIdParticipanteJoin"/>
-                <dwr:exclude method="startupsByIdParticipanteJoin"/>
-            </dwr:convert>
+
             -->
-            <dwr:convert class="co.com.elramireza.pn.model.CargoEmpleado" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.Empresa" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.EmpresaCategoria" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.EmpresaCategoriaTamano" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.LocCiudad" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.LocEstado" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.LocPais" type="bean"/>
-            <dwr:convert class="co.com.elramireza.pn.model.Participante" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.Perfil" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.Persona" type="bean">
                 <dwr:exclude method="password"/>
@@ -249,7 +241,6 @@
             <dwr:convert class="co.com.elramireza.pn.model.Servicio" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.ServicioRol" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.Texto" type="bean"/>
-            <dwr:convert class="co.com.elramireza.pn.model.TipoCargoEmpleado" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.TipoEmpresa" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.PnEtapaParticipante" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.util.MyKey" type="bean"/>
