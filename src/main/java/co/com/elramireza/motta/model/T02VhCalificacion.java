@@ -11,7 +11,7 @@ import javax.persistence.*;
  * Time: 11:35:34 AM
  */
 @Entity
-@Table(catalog = "motta", name = "t02_vh_calificacion")
+@Table(name = "t02_vh_calificacion")
 public class T02VhCalificacion {
     private String id;
 
@@ -25,16 +25,16 @@ public class T02VhCalificacion {
         this.id = id;
     }
 
-    private int idParticipante;
+    private int idEmpleado;
 
     @Basic
-    @Column(name = "id_participante")
-    public int getIdParticipante() {
-        return idParticipante;
+    @Column(name = "id_empleado")
+    public int getIdEmpleado() {
+        return idEmpleado;
     }
 
-    public void setIdParticipante(int idParticipante) {
-        this.idParticipante = idParticipante;
+    public void setIdEmpleado(int idEmpleado) {
+        this.idEmpleado = idEmpleado;
     }
 
     private String seccion;
@@ -97,31 +97,4 @@ public class T02VhCalificacion {
         this.idCategoria = idCategoria;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        T02VhCalificacion that = (T02VhCalificacion) o;
-
-        if (idCategoria != that.idCategoria) return false;
-        if (idParticipante != that.idParticipante) return false;
-        if (idSeccion != that.idSeccion) return false;
-        if (resultado != that.resultado) return false;
-        if (categoria != null ? !categoria.equals(that.categoria) : that.categoria != null) return false;
-        if (seccion != null ? !seccion.equals(that.seccion) : that.seccion != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = idParticipante;
-        result = 31 * result + (seccion != null ? seccion.hashCode() : 0);
-        result = 31 * result + (categoria != null ? categoria.hashCode() : 0);
-        result = 31 * result + (int) (resultado ^ (resultado >>> 32));
-        result = 31 * result + idSeccion;
-        result = 31 * result + idCategoria;
-        return result;
-    }
 }

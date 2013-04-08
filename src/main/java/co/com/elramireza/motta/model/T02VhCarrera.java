@@ -11,7 +11,7 @@ import javax.persistence.*;
  * Time: 10:55:36 PM
  */
 @Entity
-@Table(catalog = "motta", name = "t02_vh_carrera")
+@Table(name = "t02_vh_carrera")
 public class T02VhCarrera {
     private int id;
 

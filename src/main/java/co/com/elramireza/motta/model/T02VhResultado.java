@@ -11,7 +11,7 @@ import javax.persistence.*;
  * Time: 2:02:34 PM
  */
 @Entity
-@Table(catalog = "motta", name = "t02_vh_resultado")
+@Table(name = "t02_vh_resultado")
 public class T02VhResultado {
     private String id;
 
@@ -25,16 +25,16 @@ public class T02VhResultado {
         this.id = id;
     }
 
-    private int idParticipante;
+    private int idEmpleado;
 
     @Basic
-    @Column(name = "id_participante")
-    public int getIdParticipante() {
-        return idParticipante;
+    @Column(name = "id_empleado")
+    public int getIdEmpleado() {
+        return idEmpleado;
     }
 
-    public void setIdParticipante(int idParticipante) {
-        this.idParticipante = idParticipante;
+    public void setIdEmpleado(int idEmpleado) {
+        this.idEmpleado = idEmpleado;
     }
 
     private int idCategoria;

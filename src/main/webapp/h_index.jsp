@@ -224,7 +224,14 @@
                         <div class="control-group">
                             <label class="control-label" for="estrato">Estrato</label>
                             <div class="controls">
-                                <input type="text" class="input-large required" id="estrato" name="estrato">
+                                <select id="estrato" onchange="">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                </select>
                             </div>
                         </div>
 

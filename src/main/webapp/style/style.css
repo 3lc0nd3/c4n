@@ -1277,6 +1277,8 @@ footer .copy{
 
 }
 
+form.validateForm label.error { display: none; }
+
 label.error{
     color: black;
     text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87;

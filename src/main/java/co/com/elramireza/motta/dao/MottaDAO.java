@@ -1,18 +1,19 @@
 package co.com.elramireza.motta.dao;
 
 import co.com.elramireza.pn.dao.PnDAO;
+import co.com.elramireza.pn.model.Empleado;
+import org.directwebremoting.WebContext;
+import org.directwebremoting.WebContextFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.SQLQuery;
 
 import java.util.List;
 import java.text.SimpleDateFormat;
-import java.text.ParseException;
 import java.sql.Timestamp;
 import java.sql.Date;
 
 import co.com.elramireza.motta.model.*;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by Edward L. Ramirez A.
@@ -38,26 +39,6 @@ public class MottaDAO extends HibernateDaoSupport{
         return getHibernateTemplate().find("from T01ImPregunta order by id ");
     }
 
-    public Participante getParticipanteId(int id){
-        return (Participante) getHibernateTemplate().get(Participante.class, id);
-    }
-
-    Participante getParticipanteFrom
-
-    public Participante getParticipante(String login,
-                                        String password){
-        Object o[] = {login, password};
-        List<Participante> participantes = getHibernateTemplate().find(
-                "from Participante where emailParticipante = ? and password = ? ",
-                o
-        );
-        if(participantes.size()>0){
-            return participantes.get(0);
-        } else {
-            return null;
-        }
-    }
-
     public List<Test> getTests(){
         return getHibernateTemplate().find(
                 "from Test "
@@ -68,24 +49,19 @@ public class MottaDAO extends HibernateDaoSupport{
         return (Test) getHibernateTemplate().get(Test.class,id);
     }
 
-    public int guardarT01(Participante participante, int[] respuestas){
+    public int guardarT01(int[] respuestas){
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        try {
-            participante.setFechaNacimientoParticipante(new Timestamp(dfDate.parse(participante.getFechaNacimientoS()).getTime()));
-            participante.setFechaIngresoParticipante(timestamp);
-        } catch (ParseException e) {
-//            e.printStackTrace();
-            logger.debug(e.getMessage());
-        }
-        Integer idP = (Integer) getHibernateTemplate().save(participante);
-        participante.setIdParticipante(idP);
+
+        WebContext wctx = WebContextFactory.get();
+        HttpSession session = wctx.getSession(true);
+        Empleado empleado = (Empleado) session.getAttribute("empleo");
 
         T01ImRespuesta t01ImRespuesta;
         T01ImPregunta preguntaByIdPregunta;
         for(int i=1; i<=35; i++){
             t01ImRespuesta = new T01ImRespuesta();
             t01ImRespuesta.setFechaRespuesta(timestamp);
-            t01ImRespuesta.setParticipanteByIdParticipante(participante);
+            t01ImRespuesta.setEmpleadoByIdEmpleado(empleado);
             preguntaByIdPregunta = new T01ImPregunta();
             preguntaByIdPregunta.setId(i);
             t01ImRespuesta.setT01ImPreguntaByIdPregunta(preguntaByIdPregunta);
@@ -96,27 +72,18 @@ public class MottaDAO extends HibernateDaoSupport{
         return 1;
     }
 
-    public int guardarT02(Participante participante, int[] respuestas){
-
-        Participante participante1 = getParticipanteId();
-
+    public int guardarT02(int[] respuestas){
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        try {
-            participante.setFechaNacimientoParticipante(new Timestamp(dfDate.parse(participante.getFechaNacimientoS()).getTime()));
-            participante.setFechaIngresoParticipante(timestamp);
-        } catch (ParseException e) {
-//            e.printStackTrace();
-            logger.debug(e.getMessage());
-        }
-        Integer idP = (Integer) getHibernateTemplate().save(participante);
-        participante.setIdParticipante(idP);
+        WebContext wctx = WebContextFactory.get();
+        HttpSession session = wctx.getSession(true);
+        Empleado empleo = (Empleado) session.getAttribute("empleo");
 
         T02VhRespuesta t02VhRespuesta;
         T02VhPregunta preguntaByIdPregunta;
         for(int i=1; i<=215; i++){
             t02VhRespuesta = new T02VhRespuesta();
             t02VhRespuesta.setFechaRespuesta(timestamp);
-            t02VhRespuesta.setParticipanteByIdParticipante(participante);
+            t02VhRespuesta.setEmpleadoByIdEmpleado(empleo);
             preguntaByIdPregunta = new T02VhPregunta();
             preguntaByIdPregunta.setId(i);
             t02VhRespuesta.setT02VhPreguntaByIdPregunta(preguntaByIdPregunta);
@@ -147,7 +114,7 @@ public class MottaDAO extends HibernateDaoSupport{
      * Participantes del test 01
      * @return
      */
-    public List<Participante> getParticipanteT01(){
+    public List<Empleado> getParticipanteT01(){
         return getHibernateTemplate().find(
                 "from Participante where idParticipante in \n" +
                         "(select distinct participanteByIdParticipante.idParticipante from T01ImRespuesta) \n" +
@@ -166,7 +133,7 @@ public class MottaDAO extends HibernateDaoSupport{
         }
     }
 
-    public List<Participante> getParticipantesT02Vh(){
+    public List<Empleado> getParticipantesT02Vh(){
         return getHibernateTemplate().find(
                 "from Participante where idParticipante in " +
                         "(select distinct participanteByIdParticipante.idParticipante from T02VhRespuesta ) " +
@@ -174,17 +141,18 @@ public class MottaDAO extends HibernateDaoSupport{
         );
     }
 
-    public T01ImResultado getT01CalificacionParticipante(int idParticipante){
+//    TODO CAmbio
+    public T01ImResultado getT01CalificacionParticipante(int idEmpleado){
         //VERIFICO SI TIENE CALIFICACION
-        T01ImResultado resultado = getT01ImResultado(idParticipante);
+        T01ImResultado resultado = getT01ImResultado(idEmpleado);
         if(resultado != null){
             return resultado;
         } else {
             // ES NECESARIO HACER LA CALIFICACION
             resultado = new T01ImResultado();
             List<T01ImRespuesta> respuestas = getHibernateTemplate().find(
-                    "from T01ImRespuesta where participanteByIdParticipante.idParticipante = ?",
-                    idParticipante);
+                    "from T01ImRespuesta where empleadoByIdEmpleado.idEmpleado= ?",
+                    idEmpleado);
             int aVL = 0;
             int bLM = 0;
             int cVE = 0;
@@ -246,7 +214,7 @@ public class MottaDAO extends HibernateDaoSupport{
                 }
             }
 
-            resultado.setParticipanteByIdParticipante(getParticipanteId(idParticipante));
+            resultado.setEmpleadoByIdEmpleado(pnDAO.getEmpleado(idEmpleado));
             resultado.setAVL(aVL);
             resultado.setBLM(bLM);
             resultado.setCVE(cVE);
@@ -258,18 +226,18 @@ public class MottaDAO extends HibernateDaoSupport{
 
             getHibernateTemplate().save(resultado);
 
-            return getT01CalificacionParticipante(idParticipante);
+            return getT01CalificacionParticipante(idEmpleado);
         }
     }
 
-    public List<T02VhCalificacion> getT02VhCalificacion(int idParticipante){
+    public List<T02VhCalificacion> getT02VhCalificacion(int idEmpleado){
         return getHibernateTemplate().find(
-                "from T02VhCalificacion where idParticipante = ?",idParticipante);
+                "from T02VhCalificacion where idEmpleado = ?", idEmpleado);
     }
 
-    public List<T02VhResultado> getT02VhResultados(int idParticipante){
+    public List<T02VhResultado> getT02VhResultados(int idEmpleado){
         return getHibernateTemplate().find(
-                "from T02VhResultado where idParticipante = ? ", idParticipante);
+                "from T02VhResultado where idEmpleado = ? ", idEmpleado);
     }
 
     public List<T02VhCarrera> getT02VhCarreras(int idCategoria1,

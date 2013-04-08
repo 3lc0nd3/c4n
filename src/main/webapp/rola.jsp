@@ -29,6 +29,8 @@
         persona.setNombrePersona(importPersona.getNombres());
         persona.setDocumentoIdentidad(importPersona.getDoc());
         persona.setLocCiudadByIdCiudad(locCiudad);
+        persona.setYa(0); // PARA INICIAR
+        persona.setEstrato(0); // PARA INICIAR
 
         int idPersona = (Integer) pnManager.getHibernateTemplate().save(persona);
         System.out.println("idPersona = " + idPersona);

@@ -1,5 +1,7 @@
 package co.com.elramireza.motta.model;
 
+import co.com.elramireza.pn.model.Empleado;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -50,16 +52,17 @@ public class T01ImRespuesta {
         this.t01ImPreguntaByIdPregunta = t01ImPreguntaByIdPregunta;
     }
 
-    private Participante participanteByIdParticipante;
+
+    private Empleado empleadoByIdEmpleado;
 
     @ManyToOne
-    @JoinColumn(name = "id_participante", referencedColumnName = "id_participante", nullable = false)
-    public Participante getParticipanteByIdParticipante() {
-        return participanteByIdParticipante;
+    @JoinColumn(name = "id_empleado", referencedColumnName = "id", nullable = false)
+    public Empleado getEmpleadoByIdEmpleado() {
+        return empleadoByIdEmpleado;
     }
 
-    public void setParticipanteByIdParticipante(Participante participanteByIdParticipante) {
-        this.participanteByIdParticipante = participanteByIdParticipante;
+    public void setEmpleadoByIdEmpleado(Empleado empleadoByIdEmpleado) {
+        this.empleadoByIdEmpleado = empleadoByIdEmpleado;
     }
 
     public int valor;

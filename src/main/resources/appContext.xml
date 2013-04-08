@@ -109,6 +109,7 @@
             <map>
 <!-- inyecta los siguientes beans en el servlet context para que los servlets puedan acceder a ellos -->
                 <entry key="pnManager" value-ref="pnDAO" />
+                <entry key="mottaManager" value-ref="mottaDAO" />
             </map>
         </property>
     </bean>

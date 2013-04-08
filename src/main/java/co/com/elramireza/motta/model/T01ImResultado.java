@@ -1,5 +1,7 @@
 package co.com.elramireza.motta.model;
 
+import co.com.elramireza.pn.model.Empleado;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -12,7 +14,7 @@ import java.sql.Date;
  * Time: 8:41:09 PM
  */
 @Entity
-@Table(catalog = "motta", name = "t01_im_resultado")
+@Table(name = "t01_im_resultado")
 public class T01ImResultado {
     private int id;
 
@@ -26,16 +28,16 @@ public class T01ImResultado {
         this.id = id;
     }
 
-    private Participante participanteByIdParticipante;
+    private Empleado empleadoByIdEmpleado;
 
     @ManyToOne
-    @JoinColumn(name = "id_participante", referencedColumnName = "id_participante", nullable = false)
-    public Participante getParticipanteByIdParticipante() {
-        return participanteByIdParticipante;
+    @JoinColumn(name = "id_empleado", referencedColumnName = "id", nullable = false)
+    public Empleado getEmpleadoByIdEmpleado() {
+        return empleadoByIdEmpleado;
     }
 
-    public void setParticipanteByIdParticipante(Participante participanteByIdParticipante) {
-        this.participanteByIdParticipante = participanteByIdParticipante;
+    public void setEmpleadoByIdEmpleado(Empleado empleadoByIdEmpleado) {
+        this.empleadoByIdEmpleado = empleadoByIdEmpleado;
     }
 
     private int aVL;
