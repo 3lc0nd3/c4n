@@ -235,7 +235,7 @@
                 </td>
                 <td>
                     <label for="r02pSi<%=pregunta.getId()%>" style="width:50px;">
-                        <input type="radio" value="1" id="r02pSi<%=pregunta.getId()%>" <%=pregunta.getId()!=203?"checked":""%> name="r02p<%=pregunta.getId()%>" class="required" <%--validate="required:true"--%> >
+                        <input type="radio" value="1" id="r02pSi<%=pregunta.getId()%>"  name="r02p<%=pregunta.getId()%>" class="required" <%--validate="required:true"--%> >
                         Si
                     </label>
                 </td>
