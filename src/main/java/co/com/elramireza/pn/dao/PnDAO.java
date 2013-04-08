@@ -15,6 +15,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 
@@ -305,6 +306,23 @@ public class PnDAO extends HibernateDaoSupport{
 		}
 	}
 
+    public Persona loginDoc(String doc){
+        Persona persona = getPersonaFromDoc(doc);
+        if(persona==null){
+            return null;
+        } else {
+            WebContext wctx = WebContextFactory.get();
+            HttpSession session = wctx.getSession(true);
+            HttpServletRequest request = wctx.getHttpServletRequest();
+            String mensajeLogin = "Bienvenido: " + persona.getNombreCompleto();
+
+            request.setAttribute("mensajeLogin", mensajeLogin);
+            session.setAttribute("persona", persona);
+
+            return persona;
+        }
+    }
+
 	public Persona getPersona(int id){
 		return (Persona) getHibernateTemplate().get(Persona.class, id);
 	}
@@ -398,25 +416,36 @@ public class PnDAO extends HibernateDaoSupport{
     }
 
     public int registroAspirante(Persona aspirante){
+        logger.info("aspirante.getDocumentoIdentidad() = " + aspirante.getDocumentoIdentidad());
         logger.info("aspirante.getNombre = " + aspirante.getNombrePersona());
-        logger.info("aspirante.getApellido() = " + aspirante.getApellido());
+//        logger.info("aspirante.getApellido() = " + aspirante.getApellido());
 		logger.info("aspirante.getSexo() = " + aspirante.getSexo());
 		logger.info("aspirante.getTmpFechaNacimiento() = " + aspirante.getTmpFechaNacimiento());
 		logger.info("aspirante.getIdCiudad() = " + aspirante.getIdCiudad());
 
         try {
+            WebContext wctx = WebContextFactory.get();
+            HttpSession session = wctx.getSession(true);
+            HttpServletRequest request = wctx.getHttpServletRequest();
             Persona aspiranteOld = getPersonaFromDoc(aspirante.getDocumentoIdentidad());
             if(aspiranteOld != null){
-                aspirante = aspiranteOld;
-            } else { // NO EXISTE
-                aspirante.setEstado(false);
-                aspirante.setLocCiudadByIdCiudad(getCiudad(0));
-                aspirante.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
-                int idAspirante = (Integer) getHibernateTemplate().save(aspirante);
-                aspirante.setIdPersona(idAspirante);
+                aspirante.setIdPersona(aspiranteOld.getIdPersona());
+                aspirante.setLocCiudadByIdCiudad(getCiudad(aspirante.getIdCiudad()));
+                aspirante.setYa(1);
+
+                getHibernateTemplate().update(aspirante);
+
+                String mensajeLogin = "Bienvenido: " + aspirante.getNombrePersona();
+                request.setAttribute("mensajeLogin", mensajeLogin);
+                session.setAttribute("persona", aspirante);
+
+                return 1;
+            }
+            else { // NO EXISTE
+                return 0;
             }
 //            notificaEvaluadorAspiranteRegitro(aspirante);
-            return 1;
+
         } catch (DataAccessException e) {
 
             logger.debug(e.getMessage());

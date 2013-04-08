@@ -91,64 +91,52 @@ public class Empleado {
         this.personaByIdPersona = personaByIdPersona;
     }
 
-	private boolean evaluaGlobal;
+    private String jornada;
 
-	@Column(name = "evalua_global")
-	@Basic
-	@Type(type = "org.hibernate.type.NumericBooleanType")
-	public boolean isEvaluaGlobal() {
-		return evaluaGlobal;
-	}
+    @javax.persistence.Column(name = "jornada")
+    @Basic
+    public String getJornada() {
+        return jornada;
+    }
 
-	public void setEvaluaGlobal(boolean evaluaGlobal) {
-		this.evaluaGlobal = evaluaGlobal;
-	}
+    public void setJornada(String jornada) {
+        this.jornada = jornada;
+    }
 
-	private boolean evaluaCapitulos;
+    private String especialidad;
 
-	@Column(name = "evalua_capitulos")
-	@Basic
-	@Type(type = "org.hibernate.type.NumericBooleanType")
-	public boolean isEvaluaCapitulos() {
-		return evaluaCapitulos;
-	}
+    @javax.persistence.Column(name = "especialidad")
+    @Basic
+    public String getEspecialidad() {
+        return especialidad;
+    }
 
-	public void setEvaluaCapitulos(boolean evaluaCapitulos) {
-		this.evaluaCapitulos = evaluaCapitulos;
-	}
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
+    }
 
-	private boolean evaluaItems;
+    private String curso;
 
-	@Column(name = "evalua_items")
-	@Basic
-	@Type(type = "org.hibernate.type.NumericBooleanType")
-	public boolean isEvaluaItems() {
-		return evaluaItems;
-	}
+    @javax.persistence.Column(name = "curso")
+    @Basic
+    public String getCurso() {
+        return curso;
+    }
 
-	public void setEvaluaItems(boolean evaluaItems) {
-		this.evaluaItems = evaluaItems;
-	}
+    public void setCurso(String curso) {
+        this.curso = curso;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+    private int lista;
 
-		Empleado empleado = (Empleado) o;
+    @javax.persistence.Column(name = "lista")
+    @Basic
+    public int getLista() {
+        return lista;
+    }
 
-		if (evaluaCapitulos != empleado.evaluaCapitulos) return false;
-		if (evaluaGlobal != empleado.evaluaGlobal) return false;
-		if (evaluaItems != empleado.evaluaItems) return false;
+    public void setLista(int lista) {
+        this.lista = lista;
+    }
 
-		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = (evaluaGlobal ? 1 : 0);
-		result = 31 * result + (evaluaCapitulos ? 1 : 0);
-		result = 31 * result + (evaluaItems ? 1 : 0);
-		return result;
-	}
 }

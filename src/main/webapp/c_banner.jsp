@@ -57,9 +57,9 @@
                     <br>
                     <strong><%=empleo.getPerfilByIdPerfil().getPerfil()%></strong>
                     <br>
-                    en: <%=empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()%>
+                    en: <%=empleo.getPremioByIdPremio().getNombrePremio()%>
                     <br>
-                    <%=empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa()%>
+                    <%=empleo.getEmpresaByIdEmpresa().getNombreEmpresa()%>
                     <%
                         }
                     %>

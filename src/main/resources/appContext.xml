@@ -42,9 +42,12 @@
                 <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
                 <prop key="hibernate.connection.username">c4n</prop>
                 <prop key="hibernate.connection.password">c4n</prop>
+
                 <prop key="hibernate.show_sql">false</prop>
                 <!--<prop key="hibernate.show_sql">true</prop>-->
+
                 <prop key="hibernate.connection.autocommit">true</prop>
+                <!--<prop key="hibernate.connection.autocommit">false</prop>-->
 
                 <prop key="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</prop>
 
@@ -73,6 +76,7 @@
                 <value>co.com.elramireza.pn.model.EmpresaCategoria</value>
                 <value>co.com.elramireza.pn.model.EmpresaCategoriaTamano</value>
                 <value>co.com.elramireza.pn.model.PnEtapaParticipante</value>
+                <value>co.com.elramireza.pn.model.ImportPersona</value>
             </list>
         </property>
     </bean>
@@ -219,6 +223,7 @@
             <dwr:include method="getPnCriterio"/>
             <dwr:include method="getTotalesItems"/>
             <dwr:include method="getPnAgendaInvitadosFromParticipante"/>
+            <dwr:include method="loginDoc"/>
 
             <!--LOS QUE NO VAN-->
             <!--

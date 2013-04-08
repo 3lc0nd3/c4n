@@ -89,7 +89,9 @@
                             <%=titulo.getTexto2()%>
                         </span>
                     </h5>
-                    <p>Copyright &copy; <a href="http://www.ccalidad.org" target="cc">www.ccalidad.org</a> </p>
+                    <p>Copyright &copy; 2013
+                        <%--<a href="http://www.ccalidad.org" target="cc">www.ccalidad.org</a> --%>
+                    </p>
                 </div>
             </div>
         </div>

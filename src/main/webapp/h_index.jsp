@@ -42,7 +42,7 @@
                 }
                 if(persona == null){  //  NO HAY PERSONA
             %>
-            <jsp:include page="c_login.jsp"/>
+            <jsp:include page="c_login_doc.jsp"/>
             <%
                 } else { // SI HAY PERSONA
                     Texto selPerfil = pnManager.getTexto(14);
@@ -63,9 +63,9 @@
                 <button id="b<%=empleado.getIdEmpleado()%>" type="button" onclick="selEmpleoB(<%=empleado.getIdEmpleado()%>);" class="btn btn-primary">
                     <%=empleado.getPerfilByIdPerfil().getPerfil()%>
                     en
-                    <%=empleado.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()%>
+                    <%=empleado.getPremioByIdPremio().getNombrePremio()%>
                     -
-                    <%=empleado.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa()%>
+                    <%=empleado.getEmpresaByIdEmpresa().getNombreEmpresa()%>
                 </button>
             </span>
             <%
@@ -90,9 +90,9 @@
                 <br>
                 <strong><%=empleo.getPerfilByIdPerfil().getPerfil()%></strong>
                 <br>
-                en: <%=empleo.getParticipanteByIdParticipante().getPnPremioByIdConvocatoria().getNombrePremio()%>
+                en: <%=empleo.getPremioByIdPremio().getNombrePremio()%>
                 <br>
-                <%=empleo.getParticipanteByIdParticipante().getEmpresaByIdEmpresa().getNombreEmpresa()%>
+                <%=empleo.getEmpresaByIdEmpresa().getNombreEmpresa()%>
             </span>
             <br>
 
@@ -151,13 +151,13 @@
                     <!-- Register form (not working)-->
                     <form id="registroEvaluador" class="form-horizontal" autocomplete="off">
                         <A name="registro"></A>
-                        <h5>Datos del Aspirante a Evaluador</h5>
+                        <h5>Datos del Participante</h5>
 
                         <!-- Documento de Identidad Aspirante-->
                         <div class="control-group">
                             <label class="control-label" for="documentoIdentidad">Documento Identidad</label>
                             <div class="controls">
-                                <input type="text" class="input-large required" id="documentoIdentidad" name="documentoIdentidad">
+                                <input type="text" class="input-large required" id="documentoIdentidad" name="documentoIdentidad" readonly>
                             </div>
                         </div>
 
@@ -165,18 +165,9 @@
                         <div class="control-group">
                             <label class="control-label" for="nombrePersona">Nombre</label>
                             <div class="controls">
-                                <input type="text" class="input-large required" id="nombrePersona" name="nombrePersona">
+                                <input type="text" class="input-large required" id="nombrePersona" name="nombrePersona" readonly>
                             </div>
                         </div>
-
-                        <!-- Apellido Aspirante-->
-                        <div class="control-group">
-                            <label class="control-label" for="apellido">Apellido</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required" id="apellido" name="apellido">
-                            </div>
-                        </div>
-
 
                         <!-- sexo -->
                         <div class="control-group">
@@ -570,13 +561,14 @@
         };
         dwr.util.getValues(aspirante);
 
-        alert("aspirante.nombre = " + aspirante.nombre);
+//        alert("aspirante.nombre = " + aspirante.nombre);
 
         pnRemoto.registroAspirante(aspirante, function(data){
             if(data==1){
                 var formCS = dwr.util.byId("registroEvaluador");
 //                formCS.reset();
-//                alert("Gracias por su registro");
+                alert("Gracias por su registro");
+                location.reload(true);
                 enableId("b3");
             } else {
                 alert("Problemas !");
@@ -597,4 +589,30 @@
             registraP();
         }
     });*/
+
+    jQuery("#bDoc").click(function(){
+        var doc = dwr.util.getValue('doc');
+        disableId("bDoc");
+//        alert("doc = " + doc);
+        pnRemoto.loginDoc(doc, function(data){
+            if(data == null){
+                alert("Este documento no esta registrado");
+            } else {
+//                alert("data.nombrePersona = " + data.nombrePersona);
+//                alert("data.ya = " + data.ya);
+                if(data.ya == 0){
+                    alert(data.nombrePersona+" debes completar el registro");
+                    dwr.util.setValue("nombrePersona", data.nombrePersona);
+                    dwr.util.setValue("documentoIdentidad", data.documentoIdentidad);
+
+                    scrollToAnchor("registro");
+                } else {
+                    location.reload(true);
+                }
+            }
+            enableId("bDoc");
+        });
+    });
+
+    enableId("bDoc");
 </script>

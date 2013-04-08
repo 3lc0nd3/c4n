@@ -21,7 +21,7 @@
                             <div class="controls">
                                 <label class="checkbox">
                                     <input type="checkbox">
-                                    Recuerdame
+                                    Recu&eacute;rdame
                                 </label>
                             </div>
                         </div>

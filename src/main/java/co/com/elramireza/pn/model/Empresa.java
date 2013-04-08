@@ -15,7 +15,7 @@ import java.sql.Timestamp;
  * Time: 05:40:44 PM
  */
 @Entity
-@Table(name = "empresa", catalog = "c4n")
+@Table(name = "empresa")
 public class Empresa {
     private int idEmpresa;
 
@@ -161,54 +161,6 @@ public class Empresa {
         this.emailEmpresa = emailEmpresa;
     }
 
-    private String actividadPrincipal;
-
-    @Basic
-    @Column(name = "actividad_principal")
-    public String getActividadPrincipal() {
-        return actividadPrincipal;
-    }
-
-    public void setActividadPrincipal(String actividadPrincipal) {
-        this.actividadPrincipal = actividadPrincipal;
-    }
-
-    private String productos;
-
-    @Basic
-    @Column(name = "productos")
-    public String getProductos() {
-        return productos;
-    }
-
-    public void setProductos(String productos) {
-        this.productos = productos;
-    }
-
-    private String marcas;
-
-    @Basic
-    @Column(name = "marcas")
-    public String getMarcas() {
-        return marcas;
-    }
-
-    public void setMarcas(String marcas) {
-        this.marcas = marcas;
-    }
-
-    private String alcanceMercado;
-
-    @Basic
-    @Column(name = "alcance_mercado")
-    public String getAlcanceMercado() {
-        return alcanceMercado;
-    }
-
-    public void setAlcanceMercado(String alcanceMercado) {
-        this.alcanceMercado = alcanceMercado;
-    }
-
     private boolean estado;
 
     @Basic
@@ -232,30 +184,6 @@ public class Empresa {
 
     public void setFechaCreacion(Timestamp fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
-    }
-
-    private int empleados;
-
-    @Basic
-    @Column(name = "empleados")
-    public int getEmpleados() {
-        return empleados;
-    }
-
-    public void setEmpleados(int empleados) {
-        this.empleados = empleados;
-    }
-
-    private String valorActivos;
-
-    @Basic
-    @Column(name = "valor_activos")
-    public String getValorActivos() {
-        return valorActivos;
-    }
-
-    public void setValorActivos(String valorActivos) {
-        this.valorActivos = valorActivos;
     }
 
     private int idEmpresaCategoriaTamano;
@@ -304,107 +232,4 @@ public class Empresa {
         this.empresaCategoriaByIdCategoriaEmpresa = empresaCategoriaByIdCategoriaEmpresa;
     }
 
-    private int publicaEmpresa;
-
-    @Basic
-    @Column(name = "publica")
-    public int getPublicaEmpresa() {
-        return publicaEmpresa;
-    }
-
-    public void setPublicaEmpresa(int publicaEmpresa) {
-        this.publicaEmpresa = publicaEmpresa;
-    }
-
-	private byte[] fileInformePostulacionFile;
-
-	@Transient
-	public byte[] getFileInformePostulacionFile() {
-		return fileInformePostulacionFile;
-	}
-
-	public void setFileInformePostulacionFile(byte[] fileInformePostulacionFile) {
-		this.fileInformePostulacionFile = fileInformePostulacionFile;
-	}
-
-	private byte[] fileCertificadoConstitucionFile;
-
-    @Transient
-    public byte[] getFileCertificadoConstitucionFile() {
-        return fileCertificadoConstitucionFile;
-    }
-
-    public void setFileCertificadoConstitucionFile(byte[] fileCertificadoConstitucionFile) {
-        this.fileCertificadoConstitucionFile = fileCertificadoConstitucionFile;
-    }
-
-	private String fileInformePostulacion;
-
-	@Basic
-	@Column(name = "file_informe_p")
-	public String getFileInformePostulacion() {
-		return fileInformePostulacion;
-	}
-
-	public void setFileInformePostulacion(String fileInformePostulacion) {
-		this.fileInformePostulacion = fileInformePostulacion;
-	}
-
-	private String fileCertificadoConstitucion;
-
-    @Basic
-    @Column(name = "file_certificado_constitucion")
-    public String getFileCertificadoConstitucion() {
-        return fileCertificadoConstitucion;
-    }
-
-    public void setFileCertificadoConstitucion(String fileCertificadoConstitucion) {
-        this.fileCertificadoConstitucion = fileCertificadoConstitucion;
-    }
-
-    private byte[] fileEstadoFinancieroFile;
-
-    @Transient
-    public byte[] getFileEstadoFinancieroFile() {
-        return fileEstadoFinancieroFile;
-    }
-
-    public void setFileEstadoFinancieroFile(byte[] fileEstadoFinancieroFile) {
-        this.fileEstadoFinancieroFile = fileEstadoFinancieroFile;
-    }
-
-    private String fileEstadoFinanciero;
-
-    @Basic
-    @Column(name = "file_estado_financiero")
-    public String getFileEstadoFinanciero() {
-        return fileEstadoFinanciero;
-    }
-
-    public void setFileEstadoFinanciero(String fileEstadoFinanciero) {
-        this.fileEstadoFinanciero = fileEstadoFinanciero;
-    }
-
-    private byte[] fileConsignacionFile;
-
-    @Transient
-    public byte[] getFileConsignacionFile() {
-        return fileConsignacionFile;
-    }
-
-    public void setFileConsignacionFile(byte[] fileConsignacionFile) {
-        this.fileConsignacionFile = fileConsignacionFile;
-    }
-
-    private String fileConsignacion;
-
-    @Basic
-    @Column(name = "file_consignacion")
-    public String getFileConsignacion() {
-        return fileConsignacion;
-    }
-
-    public void setFileConsignacion(String fileConsignacion) {
-        this.fileConsignacion = fileConsignacion;
-    }
 }
