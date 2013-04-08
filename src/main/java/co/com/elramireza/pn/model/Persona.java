@@ -36,7 +36,11 @@ public class Persona {
 
     @Transient
     public String getNombreCompleto(){
-        return format("%s %s", getNombrePersona(), getApellido());
+        if (getApellido()!=null) {
+            return format("%s %s", getNombrePersona(), getApellido());
+        } else {
+            return getNombrePersona();
+        }
     }
 
     private String nombrePersona;

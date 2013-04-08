@@ -77,6 +77,21 @@
                 <value>co.com.elramireza.pn.model.EmpresaCategoriaTamano</value>
                 <value>co.com.elramireza.pn.model.PnEtapaParticipante</value>
                 <value>co.com.elramireza.pn.model.ImportPersona</value>
+
+
+                <value>co.com.elramireza.motta.model.T01ImPregunta</value>
+                <value>co.com.elramireza.motta.model.T01ImRespuesta</value>
+                <value>co.com.elramireza.motta.model.T01ImResultado</value>
+                <value>co.com.elramireza.motta.model.Test</value>
+                <value>co.com.elramireza.motta.model.T02VhCategoria</value>
+                <value>co.com.elramireza.motta.model.T02VhPregunta</value>
+                <value>co.com.elramireza.motta.model.T02VhRespuesta</value>
+                <value>co.com.elramireza.motta.model.T02VhSeccion</value>
+                <value>co.com.elramireza.motta.model.T02VhCalificacion</value>
+                <value>co.com.elramireza.motta.model.T02VhResultado</value>
+                <value>co.com.elramireza.motta.model.T02VhCarrera</value>
+                <value>co.com.elramireza.motta.model.T02VhNivelEducativo</value>
+                <value>co.com.elramireza.motta.model.T02VhOcupacion</value>
             </list>
         </property>
     </bean>
@@ -232,6 +247,7 @@
             </dwr:convert>
 
             -->
+            <dwr:convert class="co.com.elramireza.pn.model.Empleado" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.Empresa" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.EmpresaCategoria" type="bean"/>
             <dwr:convert class="co.com.elramireza.pn.model.EmpresaCategoriaTamano" type="bean"/>
@@ -259,7 +275,40 @@
         <property name="sessionFactory" ref="factory"/>
     </bean>
 
+    <bean id="mottaDAO" class="co.com.elramireza.motta.dao.MottaDAO">
+        <dwr:remote javascript="mottaRemoto">
 
+            <dwr:include method="test"/>
+            <dwr:include method="getPreguntas"/>
+            <dwr:include method="guardarT01"/>
+            <dwr:include method="guardarT02"/>
+            <dwr:include method="getT02VhCalificacion"/>
+            <dwr:include method="getT02VhResultados"/>
+            <dwr:include method="getT02VhCarreras"/>
+
+            <!--LOS QUE NO VAN-->
+
+
+            <!-- CONVERTS-->
+            <dwr:convert class="co.com.elramireza.motta.model.T01ImPregunta" type="bean"/>
+            <dwr:convert class="co.com.elramireza.motta.model.T01ImRespuesta" type="bean"/>
+            <dwr:convert class="co.com.elramireza.motta.model.T02VhCategoria" type="bean"/>
+            <dwr:convert class="co.com.elramireza.motta.model.T02VhPregunta" type="bean"/>
+            <dwr:convert class="co.com.elramireza.motta.model.T02VhRespuesta" type="bean"/>
+            <dwr:convert class="co.com.elramireza.motta.model.T02VhSeccion" type="bean"/>
+            <dwr:convert class="co.com.elramireza.motta.model.T02VhCalificacion" type="bean"/>
+            <dwr:convert class="co.com.elramireza.motta.model.T02VhResultado" type="bean"/>
+            <dwr:convert class="co.com.elramireza.motta.model.T02VhCarrera" type="bean"/>
+            <dwr:convert class="co.com.elramireza.motta.model.T02VhOcupacion" type="bean"/>
+            <dwr:convert class="co.com.elramireza.motta.model.T02VhNivelEducativo" type="bean"/>
+            <dwr:convert class="co.com.elramireza.motta.model.Test" type="bean"/>
+            <dwr:convert class="co.com.elramireza.motta.model.Participante" type="bean">
+                <dwr:exclude method="password"/>
+            </dwr:convert>
+        </dwr:remote>
+        <property name="sessionFactory" ref="factory"/>
+        <property name="pnDAO" ref="pnDAO"/>
+    </bean>
 
 
 

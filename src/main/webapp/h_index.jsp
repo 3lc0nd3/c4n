@@ -103,7 +103,7 @@
             <br>
             <br>
               <%--  ESPACIO PARA PONER INFO DE LA EMPRESA PARTICIPANTE  --%>
-            <jsp:include page="c_empresa_admon.jsp"    />
+            <%--<jsp:include page="c_empresa_admon.jsp"    />--%>
 
             <%
                     } // FIN SELECCIONA EMPLEO
@@ -607,7 +607,8 @@
 
                     scrollToAnchor("registro");
                 } else {
-                    location.reload(true);
+//                    location.reload(true);
+                    window.location = "index.htm";
                 }
             }
             enableId("bDoc");

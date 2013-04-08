@@ -382,8 +382,10 @@ public class PnDAO extends HibernateDaoSupport{
     }
 
     public Empleado selEmpleo(int id){
+        System.out.println("idEmpleo = " + id);
         try {
             Empleado empleado = getEmpleado(id);
+            logger.info("empleado = " + empleado);
             WebContext wctx = WebContextFactory.get();
             HttpSession session = wctx.getSession(true);
             Empleado empleadoOld = (Empleado) session.getAttribute("empleo");
