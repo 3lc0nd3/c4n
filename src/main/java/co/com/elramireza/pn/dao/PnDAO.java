@@ -311,13 +311,14 @@ public class PnDAO extends HibernateDaoSupport{
         if(persona==null){
             return null;
         } else {
-            WebContext wctx = WebContextFactory.get();
-            HttpSession session = wctx.getSession(true);
-            HttpServletRequest request = wctx.getHttpServletRequest();
-            String mensajeLogin = "Bienvenido: " + persona.getNombreCompleto();
-
-            request.setAttribute("mensajeLogin", mensajeLogin);
-            session.setAttribute("persona", persona);
+            if (persona.getYa()==1) {
+                WebContext wctx = WebContextFactory.get();
+                HttpSession session = wctx.getSession(true);
+                HttpServletRequest request = wctx.getHttpServletRequest();
+                String mensajeLogin = "Bienvenido: " + persona.getNombreCompleto();
+                request.setAttribute("mensajeLogin", mensajeLogin);
+                session.setAttribute("persona", persona);
+            }
 
             return persona;
         }

@@ -40,7 +40,11 @@
             </div>
             <%
                 }
-                if(persona == null){  //  NO HAY PERSONA
+                if(persona == null ){  //  NO HAY PERSONA
+            %>
+            <jsp:include page="c_login_doc.jsp"/>
+            <%
+                } else if(persona.getYa()==0){
             %>
             <jsp:include page="c_login_doc.jsp"/>
             <%
@@ -143,8 +147,7 @@
         Texto textoEvaluador = pnManager.getTexto(15);
 %>
 <registroEval>
-    <div class="row">
-
+    <div id="rowRegistro" style="display: none" class="row">
         <div class="span8">
             <div class="formy">
                 <div class="form">
@@ -609,10 +612,13 @@
 //                alert("data.ya = " + data.ya);
                 if(data.ya == 0){
                     alert(data.nombrePersona+" debes completar el registro");
+                    jQuery("#rowRegistro").show('slow', function(){
+                        scrollToAnchor("registro");
+                    });
+//                    jQuery("#rowRegistro").show();
                     dwr.util.setValue("nombrePersona", data.nombrePersona);
                     dwr.util.setValue("documentoIdentidad", data.documentoIdentidad);
 
-                    scrollToAnchor("registro");
                 } else {
 //                    location.reload(true);
                     window.location = "index.htm";
