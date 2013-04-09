@@ -397,7 +397,7 @@
 
                         <!-- formaPago -->
                         <div class="control-group">
-                            <label class="control-label" for="formaPago">Sexo</label>
+                            <label class="control-label" for="formaPago">Forma de Pago</label>
                             <div class="controls">
                                 <select id="formaPago" onchange="">
                                     <option value="propios">Recursos Propios</option>
