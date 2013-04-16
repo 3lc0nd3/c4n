@@ -245,7 +245,7 @@ public class MottaDAO extends HibernateDaoSupport{
         Object o[] = {idCategoria1, idCategoria2};
         return getHibernateTemplate().find(
                 "from T02VhCarrera where t02VhCategoriaByIdCategoria1 .id = ? and " +
-                        "t02VhCategoriaByIdCategoria2.id = ? ",
+                        "t02VhCategoriaByIdCategoria2.id = ? order by id desc ",
                 o
         );
     }

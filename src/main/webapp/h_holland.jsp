@@ -17,7 +17,7 @@
     if (resultados.size()>0){
 %>
 <div class="row-fluid">
-    <div class="span6">
+    <%--<div class="span6">
         <%
             int idSeccionOld=0;
             int idCatOld=0;
@@ -41,8 +41,8 @@
                 %>
                 <td style="width:16%; text-align:center;">
                     <span style="font-weight: bold;"><%=calificacion.getCategoria()%></span>
-                    <%--</td>--%>
-                    <%--<td>--%>
+                    &lt;%&ndash;</td>&ndash;%&gt;
+                    &lt;%&ndash;<td>&ndash;%&gt;
                     <br>
                     <%=calificacion.getResultado()%></td>
                 <%
@@ -51,7 +51,7 @@
 
             </tr>
         </table>
-    </div>
+    </div>--%>
     <div class="span6">
         <%
         %>
@@ -81,7 +81,10 @@
                 for (T02VhCarrera carrera : carreras) {
             %>
             <tr>
-                <td><%=carrera.getCarrera()%></td>
+                <td>
+                    <span style="color: #003bb3; font-weight: bold;"><%=carrera.getId()>444?"ECCI":""%></span>
+                    <%=carrera.getCarrera()%>
+                </td>
                 <td><%=carrera.getT02VhOcupacionByIdOcupacion().getOcupacion()%></td>
                 <td><%=carrera.getT02VhNivelEducativoByIdNivelEducativo().getNivel()%></td>
             </tr>
@@ -113,7 +116,10 @@
                 for (T02VhCarrera carrera : carreras) {
             %>
             <tr>
-                <td><%=carrera.getCarrera()%></td>
+                <td>
+                    <span style="color: #003bb3; font-weight: bold;"><%=carrera.getId()>444?"ECCI":""%></span>
+                    <%=carrera.getCarrera()%>
+                </td>
                 <td><%=carrera.getT02VhOcupacionByIdOcupacion().getOcupacion()%></td>
                 <td><%=carrera.getT02VhNivelEducativoByIdNivelEducativo().getNivel()%></td>
             </tr>
