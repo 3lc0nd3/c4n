@@ -286,6 +286,7 @@
             <dwr:include method="getT02VhCalificacion"/>
             <dwr:include method="getT02VhResultados"/>
             <dwr:include method="getT02VhCarreras"/>
+            <dwr:include method="deleteRespuestaT02"/>
 
             <!--LOS QUE NO VAN-->
 

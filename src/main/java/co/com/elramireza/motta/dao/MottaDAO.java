@@ -4,8 +4,14 @@ import co.com.elramireza.pn.dao.PnDAO;
 import co.com.elramireza.pn.model.Empleado;
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.springframework.dao.DataAccessException;
+import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.text.SimpleDateFormat;
 import java.sql.Timestamp;
@@ -250,6 +256,26 @@ public class MottaDAO extends HibernateDaoSupport{
         );
     }
 
+    public int deleteRespuestaT02(final int idEmpleado){
+        try {
+            getHibernateTemplate().execute(new HibernateCallback() {
+                @Override
+                public Object doInHibernate(Session session) throws HibernateException, SQLException {
+                    Query query =  session.createQuery(
+                            "delete from T02VhRespuesta where empleadoByIdEmpleado.idEmpleado = ?"
+                    );
+                    query.setInteger(0, idEmpleado);
+                    query.executeUpdate();
+                    return 1;
+                }
+            });
+            return 1;
+        } catch (DataAccessException e) {
+//            e.printStackTrace();
+            logger.debug(e.getMessage());
+            return 0;
+        }
+    }
 
 
     private PnDAO pnDAO;

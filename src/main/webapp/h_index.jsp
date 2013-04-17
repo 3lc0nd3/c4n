@@ -578,7 +578,8 @@
                 var formCS = dwr.util.byId("registroEvaluador");
 //                formCS.reset();
                 alert("Gracias por su registro");
-                location.reload(true);
+//                location.reload(true);
+                window.location = "index.htm";
                 enableId("b3");
             } else {
                 alert("Problemas !");
@@ -629,4 +630,6 @@
     });
 
     enableId("bDoc");
+
+    $('#doc').focus();
 </script>

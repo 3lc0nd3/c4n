@@ -173,25 +173,41 @@ public class PnDAO extends HibernateDaoSupport{
 		return getHibernateTemplate().find("from Perfil order by perfil ");
 	}
 
+	public List<Perfil> getPerfilesPublico(){
+		return getHibernateTemplate().find("from Perfil where id <>1 order by perfil ");
+	}
+
 	public Empleado vinculaEmpleado(int idPersona,
 									int idEmpresa,
-									int idCargo,
-									int idPerfil){
+									int idPremio,
+									int idPerfil,
+                                    String jornada,
+                                    String curso,
+                                    String especialidad,
+                                    int lista
+    ){
 		logger.info("idEmpresa = " + idEmpresa);
-		try {
+        logger.info("lista = " + lista);
+        logger.info("curso = " + curso);
+        logger.info("especialidad = " + especialidad);
+        try {
 			Empleado empleado = new Empleado();
 			empleado.setPerfilByIdPerfil(getPerfil(idPerfil));
 			empleado.setPersonaByIdPersona(getPersona(idPersona));
 			empleado.setEmpresaByIdEmpresa(getEmpresa(idEmpresa));
+            empleado.setPremioByIdPremio(getPnPremio(idPremio));
 			empleado.setFechaIngreso(new Timestamp(System.currentTimeMillis()));
-
+            empleado.setLista(lista);
+            empleado.setCurso(curso);
+            empleado.setEspecialidad(especialidad);
+            empleado.setJornada(jornada);
 
             Integer idEmpleado = (Integer) getHibernateTemplate().save(empleado);
 //			System.out.println("idEmpleado 1 = " + idEmpleado);
 
 			if(idEmpleado != null){
 				try {
-					notificaEmpleadoVinculo(empleado);
+//					notificaEmpleadoVinculo(empleado);
 				} catch (Exception e) {
 					e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 				}
