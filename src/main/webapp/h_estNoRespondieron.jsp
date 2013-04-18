@@ -17,6 +17,7 @@
 
 <table class="table table-striped table-bordered" >
     <tr>
+        <th>_</th>
         <th># Lista</th>
         <th>Estudiante</th>
         <th>Doc</th>
@@ -26,9 +27,11 @@
         <%--<th></th>--%>
     </tr>
     <%
+        int i = 0;
         for (Empleado estudiante: estudiantes){
     %>
     <tr>
+        <td><b><%=++i%></b></td>
         <td>
             <%=estudiante.getLista()%>
         </td>
