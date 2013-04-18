@@ -1,10 +1,12 @@
 <%@ page import="co.com.elramireza.pn.model.Texto" %>
 <%@ page import="co.com.elramireza.pn.model.*" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.List" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <%
     Texto texto = pnManager.getTexto(1);
     Texto textoRegistro = pnManager.getTexto(10);
+    List<PnPremio> premios = pnManager.getHibernateTemplate().find("from PnPremio ");
 %>
 
 
@@ -13,7 +15,7 @@
     <div class="row">
         <div class="span6">
             <div class="formy">
-                <a name="formPremio"></a><h5>Premios</h5>
+                <a name="formPremio"></a><h5>Convocatorias</h5>
                 <div class="form">
                     <!-- Login form (not working)-->
                     <form id="formPremiof" class="form-inline">
@@ -83,7 +85,7 @@
             String imageActive;
             String messaActive;
             SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-            for (PnPremio premio : pnManager.getPnPremios()){
+            for (PnPremio premio : premios){
                 if(premio.getEstadoInscripcion()){
                     imageActive = "img/positive.png";
                     messaActive = "Desactivar?";
@@ -100,6 +102,10 @@
             <td><img id="imgActiveInscripcion<%=premio.getIdPnPremio()%>" width="28" onclick="activaDesactiva(<%=premio.getIdPnPremio()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>
             <td>
                 <img width="36" onclick="editaPremio(<%=premio.getIdPnPremio()%>);" src="img/edit.png" alt="edita" title="edita">
+                <br>
+                <a href="estYaRespondieron.htm?id=<%=premio.getIdPnPremio()%>" target="yr">Ya</a>
+                <br>
+                <a href="estNoRespondieron.htm?id=<%=premio.getIdPnPremio()%>" target="nr">No</a>
             </td>
         </tr>
         <%
@@ -114,7 +120,7 @@
 <script type="text/javascript">
 
     function activaDesactiva(id){
-        if (id == 1) {
+        if (id == 1 && false) {
             alert("Para uso interno, no lo puedes activar.");
         } else {
             $("#imgActiveInscripcion" + id).attr("src", "images/loading.gif");
