@@ -13,7 +13,7 @@
 %>
 <h1>Lista de Estudiantes que no han respondido</h1>
 <h2>Convocatoria: <%=premio.getNombrePremio()%></h2>
-<h3><%=estudiantes.size()>0?estudiantes.get(0).getEmpresaByIdEmpresa().getNombreEmpresa():""%></h3>
+<h3><%=estudiantes.size()>1?estudiantes.get(1).getEmpresaByIdEmpresa().getNombreEmpresa():""%></h3>
 
 <table class="table table-striped table-bordered" >
     <tr>
