@@ -3,9 +3,12 @@
 <%@ page import="co.com.elramireza.pn.model.PnPremio" %>
 <%@ page import="co.com.elramireza.motta.model.T02VhResultado" %>
 <%@ page import="co.com.elramireza.pn.model.T02VhResultado2" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Locale" %>
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <jsp:useBean id="mottaManager" class="co.com.elramireza.motta.dao.MottaDAO" scope="application"/>
 <%
+    SimpleDateFormat dfLarge = new SimpleDateFormat("dd MMMM yyyy HH:mm a", new Locale("es"));
     int idPremio = Integer.parseInt(request.getParameter("id"));
     PnPremio premio = pnManager.getPnPremio(idPremio);
     List<T02VhResultado2> resultados = pnManager.getHibernateTemplate().find(
@@ -32,7 +35,7 @@
         <th> S </th>
         <th> E </th>
         <th> C </th>
-        <%--<th>C2</th>--%>
+        <th>Fecha</th>
         <%--<th></th>--%>
     </tr>
     <%
@@ -55,6 +58,7 @@
         <td> <%=resultado.getS()%></td>
         <td> <%=resultado.getE()%></td>
         <td> <%=resultado.getC()%></td>
+        <td> <%=dfLarge.format(resultado.getFechaRespuesta())%></td>
         <%--<td> <%=resultados.size()%></td>--%>
     </tr>
     <%
