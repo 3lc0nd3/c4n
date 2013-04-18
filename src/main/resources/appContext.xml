@@ -43,8 +43,8 @@
                 <prop key="hibernate.connection.username">c4n</prop>
                 <prop key="hibernate.connection.password">c4n</prop>
 
-                <prop key="hibernate.show_sql">false</prop>
-                <!--<prop key="hibernate.show_sql">true</prop>-->
+                <!--<prop key="hibernate.show_sql">false</prop>-->
+                <prop key="hibernate.show_sql">true</prop>
 
                 <prop key="hibernate.connection.autocommit">true</prop>
                 <!--<prop key="hibernate.connection.autocommit">false</prop>-->
@@ -92,6 +92,7 @@
                 <value>co.com.elramireza.motta.model.T02VhCarrera</value>
                 <value>co.com.elramireza.motta.model.T02VhNivelEducativo</value>
                 <value>co.com.elramireza.motta.model.T02VhOcupacion</value>
+                <value>co.com.elramireza.pn.model.T02VhResultado2</value>
             </list>
         </property>
     </bean>

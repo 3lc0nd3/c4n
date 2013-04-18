@@ -103,9 +103,9 @@
             <td>
                 <img width="36" onclick="editaPremio(<%=premio.getIdPnPremio()%>);" src="img/edit.png" alt="edita" title="edita">
                 <br>
-                <a href="estYaRespondieron.htm?id=<%=premio.getIdPnPremio()%>" target="yr">Ya</a>
+                <a href="estYaRespondieron.htm?id=<%=premio.getIdPnPremio()%>" >Ya</a>
                 <br>
-                <a href="estNoRespondieron.htm?id=<%=premio.getIdPnPremio()%>" target="nr">No</a>
+                <a href="estNoRespondieron.htm?id=<%=premio.getIdPnPremio()%>" >No</a>
             </td>
         </tr>
         <%
