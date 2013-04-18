@@ -2,8 +2,9 @@
 <%@ page import="co.com.elramireza.pn.model.Empleado" %>
 <%@ page import="co.com.elramireza.pn.model.Persona" %>
 <%@ page import="co.com.elramireza.motta.model.*" %>
+<%@ page import="co.com.elramireza.pn.model.Texto" %>
 <jsp:useBean id="mottaManager" class="co.com.elramireza.motta.dao.MottaDAO" scope="application"/>
-
+<jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <h1>
     <%=mottaManager.getTest(2).getNombre()%>
 </h1>
@@ -16,6 +17,9 @@
 
     if (resultados.size()>0){
 %>
+<div class="row-fluid">
+    <h3 style="text-align:center;">RESULTADO</h3>
+</div>
 <div class="row-fluid">
     <%--<div class="span6">
         <%
@@ -55,7 +59,7 @@
     <div class="span6">
         <%
         %>
-        <h3 style="text-align:center;">RESULTADO</h3>
+
         <h4 style="text-align:center;">Clave</h4>
         <table class="table table-bordered" align="center" style="width:50%">
             <tr>
@@ -128,6 +132,7 @@
             %>
         </table>
         <%
+            /*COMPRUEBA SI EL RESULTADO 2 ES IGUAL A LA 3 PARA PRESENTAR UNA NUEVA CLAVE*/
             if(resultados.get(1).getResultado()==resultados.get(2).getResultado()){
         %>
         <table class="table table-bordered" align="center" style="width:50%;">
@@ -197,7 +202,34 @@
         <%
             }
         %>
+    </div><%--  FIN SPAN 6  --%>
+    <%
+        Texto texto20 = pnManager.getTexto(20);
+        if(texto20.getTexto2().equals("si")){
+    %>
+    <div class="span6">
+        <h4 style="text-align:center;">Valores</h4>
+        <table class="table table-striped">
+            <tr>
+                <th>Categoria</th>
+                <th>Resultado</th>
+            </tr>
+            <%
+                for (T02VhResultado resultado: resultados){
+            %>
+            <tr>
+                <td> <%=resultado.getCategoria()%> </td>
+                <td> <%=resultado.getResultado()%> </td>
+            </tr>
+            <%
+                }
+            %>
+        </table>
     </div>
+    <%
+        }
+    %>
+
 </div>
 <%
     } else {
