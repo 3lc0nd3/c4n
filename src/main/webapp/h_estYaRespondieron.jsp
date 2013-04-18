@@ -8,7 +8,7 @@
 <jsp:useBean id="pnManager" class="co.com.elramireza.pn.dao.PnDAO" scope="application" />
 <jsp:useBean id="mottaManager" class="co.com.elramireza.motta.dao.MottaDAO" scope="application"/>
 <%
-    SimpleDateFormat dfLarge = new SimpleDateFormat("dd MMMM yyyy HH:mm a", new Locale("es"));
+    SimpleDateFormat dfLarge = new SimpleDateFormat("dd MMMM yyyy hh:mm a", new Locale("es"));
     int idPremio = Integer.parseInt(request.getParameter("id"));
     PnPremio premio = pnManager.getPnPremio(idPremio);
     List<T02VhResultado2> resultados = pnManager.getHibernateTemplate().find(
