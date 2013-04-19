@@ -451,7 +451,7 @@ public class PnDAO extends HibernateDaoSupport{
                 aspirante.setIdPersona(aspiranteOld.getIdPersona());
                 aspirante.setLocCiudadByIdCiudad(getCiudad(aspirante.getIdCiudad()));
                 aspirante.setYa(1);
-
+				aspirante.setFechaCreacion(aspiranteOld.getFechaCreacion());
                 getHibernateTemplate().update(aspirante);
 
                 String mensajeLogin = "Bienvenido: " + aspirante.getNombrePersona();

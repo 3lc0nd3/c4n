@@ -190,7 +190,7 @@
                             </div>
                         </div>
 
-                        <!-- departamento -->
+                        <%--<!-- departamento -->
                         <div class="control-group">
                             <label class="control-label" for="departamento">Departamento</label>
                             <div class="controls">
@@ -204,13 +204,13 @@
                                     %>
                                 </select>
                             </div>
-                        </div>
+                        </div>--%>
                         <!-- ciudad -->
                         <div class="control-group">
                             <label class="control-label" for="idCiudad">Ciudad</label>
                             <div class="controls">
                                 <select id="idCiudad"  name="idCiudad" >
-                                    <option value="0">Seleccione...</option>
+                                    <option value="150">Bogota D.C.</option>
                                 </select>
                             </div>
                         </div>
