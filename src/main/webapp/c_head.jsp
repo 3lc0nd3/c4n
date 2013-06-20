@@ -6,6 +6,7 @@
 
 %>
 <head>
+    <link rel="shortcut icon" href="chip.ico" />
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <meta charset="utf-8">
     <title>
