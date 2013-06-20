@@ -69,12 +69,12 @@
     <table cellpadding="0" cellspacing="0" border="0" class="display" id="participantesT">
         <thead>
         <tr>
-            <th>Premio</th>
-            <th>Empresa</th>
-            <th>Cargo</th>
-            <th>Perfil S</th>
+            <th>Perfil</th>
             <th>Empleado</th>
             <th>Desvincular</th>
+            <%--<th>Premio</th>--%>
+            <%--<th>Empresa</th>--%>
+            <%--<th>Cargo</th>--%>
         </tr>
         </thead>
         <%  // TODO HACER ESTO EN UNA SOLA CONSULTA
