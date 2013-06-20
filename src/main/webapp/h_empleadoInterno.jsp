@@ -6,7 +6,7 @@
     <div class="row">
         <div class="span10">
             <div class="formy">
-                <h5>Empleados Corporaci&oacute;n Calidad</h5>
+                <h5>Empleados Chip4n</h5>
                 <div class="form">
                     <!-- Login form (not working)-->
                     <form class="form-horizontal">
@@ -91,8 +91,8 @@
                 Persona persona = empleado.getPersonaByIdPersona();
         %>
         <tr>
-            <td> <%=participante.getPnPremioByIdConvocatoria().getNombrePremio()%></td>
-            <td> <%=participante.getEmpresaByIdEmpresa().getNombreEmpresa()%></td>
+            <%--<td> <%=participante.getPnPremioByIdConvocatoria().getNombrePremio()%></td>--%>
+            <%--<td> <%=participante.getEmpresaByIdEmpresa().getNombreEmpresa()%></td>--%>
             <td> <%=empleado.getPerfilByIdPerfil().getPerfil()%></td>
             <td> <%=persona.getNombrePersona()%> <%=persona.getApellido()%> </td>
             <%--<td><img id="imgActive<%=participante.getIdParticipante()%>" width="28" onclick="activaDesactiva(<%=participante.getIdParticipante()%>);" src="<%=imageActive%>" alt="<%=messaActive%>" title="<%=messaActive%>"></td>--%>

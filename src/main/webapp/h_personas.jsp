@@ -57,6 +57,13 @@
                                 <input type="text" class="input-large email" name="emailCorporativo" id="emailCorporativo">
                             </div>
                         </div>
+                        <!-- facebook -->
+                        <div class="control-group">
+                            <label class="control-label" for="facebook">Facebook</label>
+                            <div class="controls">
+                                <input type="text" class="input-large" name="facebook" id="facebook"  placeholder="facebook user">
+                            </div>
+                        </div>
                         <!-- twitter -->
                         <div class="control-group">
                             <label class="control-label" for="twitter">Twitter</label>
@@ -231,6 +238,7 @@
             documentoIdentidad : null,
             emailPersonal : null,
             emailCorporativo : null,
+            facebook : null,
             twitter : null,
             skype : null,
             telefonoFijo : null,
@@ -243,7 +251,7 @@
             if(data!= null){
                 if(data == 1){
                     alert("Registro Correcto");
-                    window.location = "miembros.htm";
+                    window.location = "personas.htm";
                 }
             }
         });

@@ -192,7 +192,7 @@
             pnRemoto.desvinculaEmpleado(idEmpleado, function(data){
                 if(data == ''){
                     alert("Desvinculado Completo");
-                    window.location = "empleados.htm";
+                    window.location = "estudiantes.htm";
                 } else {
                     alert("Problemas ! " + data);
                 }

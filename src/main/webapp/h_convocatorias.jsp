@@ -179,7 +179,7 @@
         pnRemoto.savePnPremio(premio, function(data){
             if(data==1){
                 alert('Guardado');
-                window.location = "premios.htm";
+                window.location = "convocatorias.htm";
             } else {
                 alert('Problemas!');
             }

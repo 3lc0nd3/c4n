@@ -377,10 +377,21 @@ public class PnDAO extends HibernateDaoSupport{
 		persona.setLocCiudadByIdCiudad(getCiudad(persona.getLocCiudadPersona()));
 		persona.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
 		if(personaOld != null){ // EXISTE
-			persona.setIdPersona(personaOld.getIdPersona());
-			persona.setEstado(personaOld.getEstado());
-			persona.setFechaCreacion(personaOld.getFechaCreacion());
-			getHibernateTemplate().update(persona);
+
+            personaOld.setNombrePersona(persona.getNombrePersona());
+            personaOld.setApellido(persona.getApellido());
+            personaOld.setDocumentoIdentidad(persona.getDocumentoIdentidad());
+            personaOld.setEmailPersonal(persona.getEmailPersonal());
+            personaOld.setEmailCorporativo(persona.getEmailCorporativo());
+            personaOld.setFacebook(persona.getFacebook());
+            personaOld.setTwitter(persona.getTwitter());
+            personaOld.setSkype(persona.getSkype());
+            personaOld.setTelefonoFijo(persona.getTelefonoFijo());
+            personaOld.setCelular(persona.getCelular());
+            personaOld.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+            personaOld.setLocCiudadByIdCiudad(getCiudad(persona.getLocCiudadPersona()));
+
+			getHibernateTemplate().update(personaOld);
 		} else {
 			persona.setEstado(false);
 			/*int idPersona = (Integer) */

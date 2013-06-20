@@ -120,14 +120,14 @@ public class MottaDAO extends HibernateDaoSupport{
      * Participantes del test 01
      * @return
      */
-    public List<Empleado> getParticipanteT01(){
+    /*public List<Empleado> getParticipanteT01(){
         return getHibernateTemplate().find(
                 "from Participante where idParticipante in \n" +
                         "(select distinct participanteByIdParticipante.idParticipante from T01ImRespuesta) \n" +
                         " order by fechaIngresoParticipante desc , apellidosParticipante , nombresParticipante"
         );
     }
-
+*/
     public T01ImResultado getT01ImResultado(int idParticipante){
         List<T01ImResultado> resultados = getHibernateTemplate().find(
                 "from T01ImResultado where participanteByIdParticipante.idParticipante = ? ", idParticipante

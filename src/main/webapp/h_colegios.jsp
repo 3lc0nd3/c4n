@@ -13,7 +13,7 @@
     <div class="row">
         <div class="span10">
             <div class="formy">
-                <a name="datosDeEmpresa"></a><h5>Datos de Empresa</h5>
+                <a name="datosDeEmpresa"></a><h5>Datos de Colegio</h5>
                 <div class="form">
                     <!-- Login form (not working)-->
                     <form id="registroEmpresa" class="form-horizontal" autocomplete="off">
@@ -92,57 +92,7 @@
                                 <input type="text" class="input-large email" name="emailEmpresa" id="emailEmpresa">
                             </div>
                         </div>
-                        <!-- actividadPrincipal -->
-                        <div class="control-group">
-                            <label class="control-label" for="actividadPrincipal">Actividad Principal</label>
-                            <div class="controls">
-                                <!--<input type="text" class="input-large required" id="actividadPrincipal" name="actividadPrincipal">-->
-                                <textarea  class="input-large required" id="actividadPrincipal" name="actividadPrincipal"></textarea>
-                            </div>
-                        </div>
-                        <!-- productos -->
-                        <div class="control-group">
-                            <label class="control-label" for="productos">Productos</label>
-                            <div class="controls">
-                                <!--<input type="text" class="input-large required" id="productos" name="productos"> -->
-                                <textarea  class="input-large required" id="productos" name="productos"></textarea>
-                            </div>
-                        </div>
-                        <!-- marcas -->
-                        <div class="control-group">
-                            <label class="control-label" for="marcas">Marcas</label>
-                            <div class="controls">
-                                <!--<input type="text" class="input-large required" id="marcas" name="marcas">-->
-                                <textarea  class="input-large required" id="marcas" name="marcas"></textarea>
-                            </div>
-                        </div>
-                        <!-- alcanceMercado -->
-                        <div class="control-group">
-                            <label class="control-label" for="alcanceMercado">Alcance del Mercado</label>
-                            <div class="controls">
-                                <select id="alcanceMercado"  name="alcanceMercado" >
-                                    <option value="0">Seleccione...</option>
-                                    <option value="1">Nacional</option>
-                                    <option value="2">Internacional</option>
-                                </select>
-                            </div>
-                        </div>
 
-                        <!-- empleados -->
-                        <div class="control-group">
-                            <label class="control-label" for="empleados">N&uacute;mero de Empleados</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required digits" id="empleados" name="empleados">
-                            </div>
-                        </div>
-
-                        <!-- valorActivos -->
-                        <div class="control-group">
-                            <label class="control-label" for="valorActivos">Valor de Activos</label>
-                            <div class="controls">
-                                <input type="text" class="input-large required currency" id="valorActivos" name="valorActivos">
-                            </div>
-                        </div>
 
                         <!-- idEmpresaCategoria  -->
                         <div class="control-group">
@@ -163,7 +113,7 @@
 
                         <!-- idEmpresaCategoriaTamano  -->
                         <div class="control-group">
-                            <label class="control-label" for="idEmpresaCategoriaTamano">Tama&ntilde;o de la Empresa</label>
+                            <label class="control-label" for="idEmpresaCategoriaTamano">Tama&ntilde;o del Colegio</label>
                             <div class="controls">
                                 <select id="idEmpresaCategoriaTamano"  name="idEmpresaCategoriaTamano"  onchange="">
                                     <option value="0">Seleccione...</option>
@@ -174,18 +124,6 @@
                                     <%
                                         }
                                     %>
-                                </select>
-                            </div>
-                        </div>
-
-                        <!-- publicaEmpresa -->
-                        <div class="control-group">
-                            <label class="control-label" for="publicaEmpresa">Es Empresa P&uacute;blica</label>
-                            <div class="controls">
-                                <select id="publicaEmpresa" name="publicaEmpresa" onchange="changeEstado();">
-                                    <option value="0">Seleccione...</option>
-                                    <option value="1">Si</option>
-                                    <option value="2">No</option>
                                 </select>
                             </div>
                         </div>
@@ -314,7 +252,7 @@
             if(data!= null){
                 if(data == 1){
                     alert("Registro Correcto");
-                    window.location = "empresas.htm";
+                    window.location = "colegios.htm";
                 }
             }
         });
